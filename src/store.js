@@ -6,6 +6,8 @@ import createPersistedState from 'vuex-persistedstate'
 
 Vue.use(Vuex);
 
+let url = "https://floating-oasis-11919.herokuapp.com"
+
 let initialState = {
     showloader: false,
     status: false,
@@ -454,7 +456,7 @@ const actions = {
         formData.append("email", model.email);
         formData.append("password", model.password);
 
-        return Axios.post("http://localhost:3000/users/register", formData).then(res => {
+        return Axios.post(`${url}/users/register`, formData).then(res => {
             console.log(res);
             commit(TYPES.mutations.hideLoading);
             console.log(state.showloader);
@@ -487,7 +489,7 @@ const actions = {
         formData.append("password", model.password);
         console.log(formData);
         console.log(model.email, ":", model.password);
-        return Axios.post("http://localhost:3000/users/login", formData, ).then(res => {
+        return Axios.post(`${url}/users/login`, formData, ).then(res => {
             commit(TYPES.mutations.hideLoading);
             if (res.data.status == true) {
                 commit(TYPES.mutations.setUser, res.data.user);
