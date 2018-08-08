@@ -12,12 +12,12 @@
   <b-navbar-brand class="text-sm-center text-center" >PHONESHOP</b-navbar-brand>
 
          <b-nav-form  >
-        <b-form-input size="md" class="mr-sm-2 search " type="text" placeholder="Search for anything..."/>
+        <b-form-input v-model="message" size="md" class="mr-sm-2 search " type="text" placeholder="Search for anything..."/>
          <b-form-select v-model="selected" :options="options" class="mr-1 category ">
     </b-form-select>
 
 
-        <b-button size="md" class="my-2 my-sm-0 mx-auto searchbutton" variant="primary" v-on:click="shop()" type="submit">Search</b-button>
+        <b-button size="md"  class="my-2 my-sm-0 mx-auto searchbutton" variant="primary" v-on:click="shop()" type="submit">Search</b-button>
       </b-nav-form>
 
 
@@ -32,16 +32,26 @@
 </template>
 
 <script>
+import {TYPES} from '../../src/store.js'
 export default {
   data() {
     return {
       selected: "All categories",
-      options: ["All categories", "Samsung", "Apple", "Sony"]
+      options: ["All categories", "Samsung", "Apple", "Sony"],
+      message: ''
     };
   },
   methods: {
     shop() {
-      this.$router.push({ name: "Shop" });
+     
+      if(this.selected ==="All categories"){
+        this.selected = "allcateg";
+      }
+
+      if(this.message === ''){
+        this.message = "n";
+      }
+      this.$router.push({ path: `/shop/${this.selected}/${this.message}` });
     }
   }
 };

@@ -9,9 +9,9 @@
     <div class="row">
       <div class="col-md-2 col-lg-2 col-12 "><img v-on:click="details(product.id)" class="img-fluid" :src="product.image" :alt="product.name"></div>
       <div class="col-md-4 col-lg-3 col-12 text-center text-md-left">
-        <small>{{product.manufacturer && product.manufacturer.name}}</small>
+        <small>{{product.manufacturer }}</small>
             <h3>{{product.name}}</h3>
-            <p>Price: <strong>US ${{product.price}}</strong></p>
+            <p>Price: <strong>US ${{calculatePrice(product)}}</strong></p>
            
       </div>
     
@@ -88,6 +88,13 @@ export default {
   },
 
   methods: {
+    calculatePrice(item){
+      let discount = item.discount + 100;
+      let max = 100;
+      let totaldisc = max / discount;
+
+      return Math.round(totaldisc * item.price);
+    },
     details(id) {
       this.$router.push({ path: `/details/${id}` });
     },

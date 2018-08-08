@@ -138,7 +138,15 @@ const userController = {
             }
         });
 
-    }
+    },
+
+    changeProfile(req, res) {
+        console.log("changeProfile");
+
+
+
+
+    },
 
 
 }

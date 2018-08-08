@@ -7,14 +7,24 @@
             class="img-fluid text-center" :src="product.image" alt="">
         </div>
         <div class="product__description row">
+        
           <div class="product__info">
-            <small>{{product.manufacturer.name}}</small>
+            
+            <small>{{product.manufacturer}}</small>
+            
             <h4>{{product.name}}</h4>
           </div>
-          <div class="product__price-cart">
-            ${{product.price}}
+          <div class="product__price-cart pl-3">
+             <template v-if="product.discount > 0">
+               {{product.discount}}% Off!</template> 
+               <template v-else>Full Price</template>
+            ${{calculatePrice(product)}}
+             
+
           </div>
+       
         </div>
+      
       </router-link>
       <div class="product__action">
         <product-button :product="product"></product-button>
@@ -32,6 +42,15 @@ export default {
   props: ["product"],
   components: {
     "product-button": ProductButton
+  },
+  methods: {
+    calculatePrice(item){
+      let discount = item.discount + 100;
+      let max = 100;
+      let totaldisc = max / discount;
+
+      return Math.round(totaldisc * item.price);
+    }
   }
 };
 </script>

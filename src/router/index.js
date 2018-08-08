@@ -21,6 +21,14 @@ function Authenticated(to, from, next) {
     }
 }
 
+function isEmpty(to, from, next) {
+    if (store.getters.cart.length > 0) {
+        next()
+    } else {
+        next({ name: "Home" });
+    }
+}
+
 export default new Router({
     routes: [{
             path: '/',
@@ -28,7 +36,7 @@ export default new Router({
             component: Home
         },
         {
-            path: '/shop',
+            path: '/shop/:filter/:message',
             name: 'Shop',
             component: Shop
         },
@@ -45,7 +53,8 @@ export default new Router({
         {
             path: '/checkout',
             name: 'Checkout',
-            component: Checkout
+            component: Checkout,
+            beforeEnter: isEmpty
         },
         {
             path: '/signin',

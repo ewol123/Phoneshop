@@ -7,22 +7,18 @@
  
             <div class="row">
 
-        <div v-if="page ==='home'" class="col-12 col-lg-3 my-3" v-for="product in list" :key="product.id">
+        <div  class="col-12 col-lg-3 my-3" v-for="product in list" :key="product.id">
           
-         <product-item :product="product" :key="product.id"></product-item>
+         <product-item v-if="product.discount >0" :product="product" :key="product.id"></product-item>
           
         </div>
            
 
-        <div v-if="page ==='shop'" class="col-12 col-lg-4 my-3" v-for="product in list" :key="product.id">
-          
-         <product-item :product="product" :key="product.id"></product-item>
-          
-        </div>
 
 
         </div>
         <infinite-loading v-if="index < products.length" class="mx-auto" @infinite="infiniteHandler"></infinite-loading>
+       
       </div>
     </div>
   </div>
@@ -35,13 +31,8 @@ import InfiniteLoading from "vue-infinite-loading";
 import { TYPES } from "../../../src/store.js";
 export default {
   name: "product-list",
-  props: ["page"],
   created() {
-    if (this.products.length === 0) {
-      this.$store.dispatch("allProducts");
-    }
 
-    console.log("created", this.products);
 
     for (let i = 0; i < this.index; i++) {
       this.list.push(this.products[i]);
@@ -53,12 +44,18 @@ export default {
   computed: {
     products: {
       get: function() {
-        return this.$store.getters.allProducts;
+       
+        let products = JSON.parse(localStorage.getItem("products"));
+        return products;
+      
+        
+      
       },
       set: function(value) {
-        this.$store.commit(TYPES.mutations.setProducts);
+  console.log("called set on products");
       }
-    }
+    },
+
   },
   mounted() {
     console.log("mounted", this.products);
@@ -74,15 +71,34 @@ export default {
     infiniteHandler($state) {
       setTimeout(() => {
         const temp = [];
-        for (let i = this.index; i < this.index + 4; i++) {
+        let step = 4;
+      
+
+        for (let i = this.index; i < this.index + step; i++) {
           temp.push(this.products[i]);
         }
         this.list = this.list.concat(temp);
         console.log("newlista", this.list);
+        console.log("end of list: ", this.products.length);
         this.index += 4;
         console.log("index", this.index);
-        $state.loaded();
-      }, 1000);
+
+      /*here we check if array.length - index / steps is smaller than one, 
+        if so that means we cant load "steps" amount of data, because we don't have that much,
+        so we just load the rest of them at once.
+      */
+        if((this.products.length - this.index) /step < 1) {
+        for( let i = this.index; i<this.products.length;i++){
+          this.list = this.list.concat(this.products[i]);
+        }
+       
+        }
+      else{
+  }
+
+ 
+
+  }, 1000);
     }
   },
   components: {

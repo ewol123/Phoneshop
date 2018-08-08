@@ -6,195 +6,13 @@ import createPersistedState from 'vuex-persistedstate'
 
 Vue.use(Vuex);
 
-let url = "https://floating-oasis-11919.herokuapp.com"
+//let url = "https://thawing-wave-66675.herokuapp.com/"
 
 let initialState = {
     showloader: false,
     status: false,
-    products: [{
-            id: 1,
-            manId: 3,
-            name: "S7 Edge",
-            price: 659,
-            image: "https://www.boostmobile.com/content/dam/boostmobile/en/products/phones/samsung/s7-edge/black/device-front.png.transform/pdpCarousel/image.jpg",
-            description: '5.5" Quad HD Super AMOLED | 12 MP Phase Detection Autofocus Rear Camera / 5 MP Front Facing Camera | Android Marshmallow 6.0 | Wi-Fi 802.11 a/b/g/n/ac, Dual-Band, Wi-Fi Direct, Hotspot | Water-Resistant Features an IP68 Rating (30 Min. In 1m Of Water) | Low-Light Camera | Expandable Storage Up To 200 GB | Samsung Pay',
-            manufacturer: {
-                id: 3,
-                name: "Samsung"
-            }
-        },
-        {
-            id: 2,
-            manId: 1,
-            name: "iPhone 7",
-            price: 769,
-            image: "https://www.t-mobile.com/content/dam/t-mobile/en-p/cell-phones/apple/apple-iphone-7/matte-black/Apple-iPhone7-MatBlack-1-3x.jpg",
-            description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore enim eveniet fuga placeat velit. Dolorem minima nemo nulla perspiciatis totam. Consequuntur debitis dolorem eveniet illo magni nobis perspiciatis quidem quisquam.",
-            manufacturer: {
-                id: 1,
-                name: "Apple"
-            }
-        },
-        {
-            id: 3,
-            name: "Xperia XZ",
-            manId: 2,
-            price: 649,
-            image: "https://notebookspecialista.hu/files/pix-product/xperia-xz-premium-silver-front.png",
-            description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore enim eveniet fuga placeat velit. Dolorem minima nemo nulla perspiciatis totam. Consequuntur debitis dolorem eveniet illo magni nobis perspiciatis quidem quisquam.",
-            manufacturer: {
-                id: 2,
-                name: "Sony"
-            }
-        },
-        {
-            id: 4,
-            name: "Xperia XZ",
-            price: 649,
-            image: "https://notebookspecialista.hu/files/pix-product/xperia-xz-premium-silver-front.png",
-            description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore enim eveniet fuga placeat velit. Dolorem minima nemo nulla perspiciatis totam. Consequuntur debitis dolorem eveniet illo magni nobis perspiciatis quidem quisquam.",
-            manufacturer: {
-                id: 2,
-                name: "Sony"
-            }
-        },
-        {
-            id: 5,
-            name: "Xperia XZ",
-            price: 649,
-            image: "https://notebookspecialista.hu/files/pix-product/xperia-xz-premium-silver-front.png",
-            description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore enim eveniet fuga placeat velit. Dolorem minima nemo nulla perspiciatis totam. Consequuntur debitis dolorem eveniet illo magni nobis perspiciatis quidem quisquam.",
-            manufacturer: {
-                id: 2,
-                name: "Sony"
-            }
-        },
-        {
-            id: 6,
-            name: "Xperia XZ",
-            price: 649,
-            image: "https://notebookspecialista.hu/files/pix-product/xperia-xz-premium-silver-front.png",
-            description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore enim eveniet fuga placeat velit. Dolorem minima nemo nulla perspiciatis totam. Consequuntur debitis dolorem eveniet illo magni nobis perspiciatis quidem quisquam.",
-            manufacturer: {
-                id: 2,
-                name: "Sony"
-            }
-        },
-        {
-            id: 7,
-            name: "Xperia XZ",
-            price: 649,
-            image: "https://notebookspecialista.hu/files/pix-product/xperia-xz-premium-silver-front.png",
-            description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore enim eveniet fuga placeat velit. Dolorem minima nemo nulla perspiciatis totam. Consequuntur debitis dolorem eveniet illo magni nobis perspiciatis quidem quisquam.",
-            manufacturer: {
-                id: 2,
-                name: "Sony"
-            }
-        },
-        {
-            id: 8,
-            name: "Xperia XZ",
-            price: 649,
-            image: "https://notebookspecialista.hu/files/pix-product/xperia-xz-premium-silver-front.png",
-            description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore enim eveniet fuga placeat velit. Dolorem minima nemo nulla perspiciatis totam. Consequuntur debitis dolorem eveniet illo magni nobis perspiciatis quidem quisquam.",
-            manufacturer: {
-                id: 2,
-                name: "Sony"
-            }
-        },
-        {
-            id: 9,
-            name: "Xperia XZ",
-            price: 649,
-            image: "https://notebookspecialista.hu/files/pix-product/xperia-xz-premium-silver-front.png",
-            description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore enim eveniet fuga placeat velit. Dolorem minima nemo nulla perspiciatis totam. Consequuntur debitis dolorem eveniet illo magni nobis perspiciatis quidem quisquam.",
-            manufacturer: {
-                id: 2,
-                name: "Sony"
-            }
-        },
-        {
-            id: 10,
-            name: "Xperia XZ",
-            price: 649,
-            image: "https://notebookspecialista.hu/files/pix-product/xperia-xz-premium-silver-front.png",
-            description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore enim eveniet fuga placeat velit. Dolorem minima nemo nulla perspiciatis totam. Consequuntur debitis dolorem eveniet illo magni nobis perspiciatis quidem quisquam.",
-            manufacturer: {
-                id: 2,
-                name: "Sony"
-            }
-        },
-        {
-            id: 11,
-            name: "Xperia XZ",
-            price: 649,
-            image: "https://notebookspecialista.hu/files/pix-product/xperia-xz-premium-silver-front.png",
-            description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore enim eveniet fuga placeat velit. Dolorem minima nemo nulla perspiciatis totam. Consequuntur debitis dolorem eveniet illo magni nobis perspiciatis quidem quisquam.",
-            manufacturer: {
-                id: 2,
-                name: "Sony"
-            }
-        },
-        {
-            id: 12,
-            name: "Xperia XZ",
-            price: 649,
-            image: "https://notebookspecialista.hu/files/pix-product/xperia-xz-premium-silver-front.png",
-            description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore enim eveniet fuga placeat velit. Dolorem minima nemo nulla perspiciatis totam. Consequuntur debitis dolorem eveniet illo magni nobis perspiciatis quidem quisquam.",
-            manufacturer: {
-                id: 2,
-                name: "Sony"
-            }
-        },
-        {
-            id: 13,
-            manId: 3,
-            name: "S7 Edge",
-            price: 659,
-            image: "https://www.boostmobile.com/content/dam/boostmobile/en/products/phones/samsung/s7-edge/black/device-front.png.transform/pdpCarousel/image.jpg",
-            description: '5.5" Quad HD Super AMOLED | 12 MP Phase Detection Autofocus Rear Camera / 5 MP Front Facing Camera | Android Marshmallow 6.0 | Wi-Fi 802.11 a/b/g/n/ac, Dual-Band, Wi-Fi Direct, Hotspot | Water-Resistant Features an IP68 Rating (30 Min. In 1m Of Water) | Low-Light Camera | Expandable Storage Up To 200 GB | Samsung Pay',
-            manufacturer: {
-                id: 3,
-                name: "Samsung"
-            }
-        },
-        {
-            id: 14,
-            manId: 3,
-            name: "S7 Edge",
-            price: 659,
-            image: "https://www.boostmobile.com/content/dam/boostmobile/en/products/phones/samsung/s7-edge/black/device-front.png.transform/pdpCarousel/image.jpg",
-            description: '5.5" Quad HD Super AMOLED | 12 MP Phase Detection Autofocus Rear Camera / 5 MP Front Facing Camera | Android Marshmallow 6.0 | Wi-Fi 802.11 a/b/g/n/ac, Dual-Band, Wi-Fi Direct, Hotspot | Water-Resistant Features an IP68 Rating (30 Min. In 1m Of Water) | Low-Light Camera | Expandable Storage Up To 200 GB | Samsung Pay',
-            manufacturer: {
-                id: 3,
-                name: "Samsung"
-            }
-        },
-        {
-            id: 15,
-            manId: 3,
-            name: "S7 Edge",
-            price: 659,
-            image: "https://www.boostmobile.com/content/dam/boostmobile/en/products/phones/samsung/s7-edge/black/device-front.png.transform/pdpCarousel/image.jpg",
-            description: '5.5" Quad HD Super AMOLED | 12 MP Phase Detection Autofocus Rear Camera / 5 MP Front Facing Camera | Android Marshmallow 6.0 | Wi-Fi 802.11 a/b/g/n/ac, Dual-Band, Wi-Fi Direct, Hotspot | Water-Resistant Features an IP68 Rating (30 Min. In 1m Of Water) | Low-Light Camera | Expandable Storage Up To 200 GB | Samsung Pay',
-            manufacturer: {
-                id: 3,
-                name: "Samsung"
-            }
-        },
-        {
-            id: 16,
-            manId: 3,
-            name: "S7 Edge",
-            price: 659,
-            image: "https://www.boostmobile.com/content/dam/boostmobile/en/products/phones/samsung/s7-edge/black/device-front.png.transform/pdpCarousel/image.jpg",
-            description: '5.5" Quad HD Super AMOLED | 12 MP Phase Detection Autofocus Rear Camera / 5 MP Front Facing Camera | Android Marshmallow 6.0 | Wi-Fi 802.11 a/b/g/n/ac, Dual-Band, Wi-Fi Direct, Hotspot | Water-Resistant Features an IP68 Rating (30 Min. In 1m Of Water) | Low-Light Camera | Expandable Storage Up To 200 GB | Samsung Pay',
-            manufacturer: {
-                id: 3,
-                name: "Samsung"
-            }
-        }
-    ] /**product is used for storing a single item */ ,
+    products: [],
+    /**product is used for storing a single item */
     product: "",
     cart: [],
     user: ""
@@ -204,193 +22,12 @@ const state = {
     showloader: false,
     status: false,
     message: "",
-    products: [{
-            id: 1,
-            manId: 3,
-            name: "S7 Edge",
-            price: 659,
-            image: "https://www.boostmobile.com/content/dam/boostmobile/en/products/phones/samsung/s7-edge/black/device-front.png.transform/pdpCarousel/image.jpg",
-            description: '5.5" Quad HD Super AMOLED | 12 MP Phase Detection Autofocus Rear Camera / 5 MP Front Facing Camera | Android Marshmallow 6.0 | Wi-Fi 802.11 a/b/g/n/ac, Dual-Band, Wi-Fi Direct, Hotspot | Water-Resistant Features an IP68 Rating (30 Min. In 1m Of Water) | Low-Light Camera | Expandable Storage Up To 200 GB | Samsung Pay',
-            manufacturer: {
-                id: 3,
-                name: "Samsung"
-            }
-        },
-        {
-            id: 2,
-            manId: 1,
-            name: "iPhone 7",
-            price: 769,
-            image: "https://www.t-mobile.com/content/dam/t-mobile/en-p/cell-phones/apple/apple-iphone-7/matte-black/Apple-iPhone7-MatBlack-1-3x.jpg",
-            description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore enim eveniet fuga placeat velit. Dolorem minima nemo nulla perspiciatis totam. Consequuntur debitis dolorem eveniet illo magni nobis perspiciatis quidem quisquam.",
-            manufacturer: {
-                id: 1,
-                name: "Apple"
-            }
-        },
-        {
-            id: 3,
-            name: "Xperia XZ",
-            manId: 2,
-            price: 649,
-            image: "https://notebookspecialista.hu/files/pix-product/xperia-xz-premium-silver-front.png",
-            description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore enim eveniet fuga placeat velit. Dolorem minima nemo nulla perspiciatis totam. Consequuntur debitis dolorem eveniet illo magni nobis perspiciatis quidem quisquam.",
-            manufacturer: {
-                id: 2,
-                name: "Sony"
-            }
-        },
-        {
-            id: 4,
-            name: "Xperia XZ",
-            price: 649,
-            image: "https://notebookspecialista.hu/files/pix-product/xperia-xz-premium-silver-front.png",
-            description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore enim eveniet fuga placeat velit. Dolorem minima nemo nulla perspiciatis totam. Consequuntur debitis dolorem eveniet illo magni nobis perspiciatis quidem quisquam.",
-            manufacturer: {
-                id: 2,
-                name: "Sony"
-            }
-        },
-        {
-            id: 5,
-            name: "Xperia XZ",
-            price: 649,
-            image: "https://notebookspecialista.hu/files/pix-product/xperia-xz-premium-silver-front.png",
-            description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore enim eveniet fuga placeat velit. Dolorem minima nemo nulla perspiciatis totam. Consequuntur debitis dolorem eveniet illo magni nobis perspiciatis quidem quisquam.",
-            manufacturer: {
-                id: 2,
-                name: "Sony"
-            }
-        },
-        {
-            id: 6,
-            name: "Xperia XZ",
-            price: 649,
-            image: "https://notebookspecialista.hu/files/pix-product/xperia-xz-premium-silver-front.png",
-            description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore enim eveniet fuga placeat velit. Dolorem minima nemo nulla perspiciatis totam. Consequuntur debitis dolorem eveniet illo magni nobis perspiciatis quidem quisquam.",
-            manufacturer: {
-                id: 2,
-                name: "Sony"
-            }
-        },
-        {
-            id: 7,
-            name: "Xperia XZ",
-            price: 649,
-            image: "https://notebookspecialista.hu/files/pix-product/xperia-xz-premium-silver-front.png",
-            description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore enim eveniet fuga placeat velit. Dolorem minima nemo nulla perspiciatis totam. Consequuntur debitis dolorem eveniet illo magni nobis perspiciatis quidem quisquam.",
-            manufacturer: {
-                id: 2,
-                name: "Sony"
-            }
-        },
-        {
-            id: 8,
-            name: "Xperia XZ",
-            price: 649,
-            image: "https://notebookspecialista.hu/files/pix-product/xperia-xz-premium-silver-front.png",
-            description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore enim eveniet fuga placeat velit. Dolorem minima nemo nulla perspiciatis totam. Consequuntur debitis dolorem eveniet illo magni nobis perspiciatis quidem quisquam.",
-            manufacturer: {
-                id: 2,
-                name: "Sony"
-            }
-        },
-        {
-            id: 9,
-            name: "Xperia XZ",
-            price: 649,
-            image: "https://notebookspecialista.hu/files/pix-product/xperia-xz-premium-silver-front.png",
-            description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore enim eveniet fuga placeat velit. Dolorem minima nemo nulla perspiciatis totam. Consequuntur debitis dolorem eveniet illo magni nobis perspiciatis quidem quisquam.",
-            manufacturer: {
-                id: 2,
-                name: "Sony"
-            }
-        },
-        {
-            id: 10,
-            name: "Xperia XZ",
-            price: 649,
-            image: "https://notebookspecialista.hu/files/pix-product/xperia-xz-premium-silver-front.png",
-            description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore enim eveniet fuga placeat velit. Dolorem minima nemo nulla perspiciatis totam. Consequuntur debitis dolorem eveniet illo magni nobis perspiciatis quidem quisquam.",
-            manufacturer: {
-                id: 2,
-                name: "Sony"
-            }
-        },
-        {
-            id: 11,
-            name: "Xperia XZ",
-            price: 649,
-            image: "https://notebookspecialista.hu/files/pix-product/xperia-xz-premium-silver-front.png",
-            description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore enim eveniet fuga placeat velit. Dolorem minima nemo nulla perspiciatis totam. Consequuntur debitis dolorem eveniet illo magni nobis perspiciatis quidem quisquam.",
-            manufacturer: {
-                id: 2,
-                name: "Sony"
-            }
-        },
-        {
-            id: 12,
-            name: "Xperia XZ",
-            price: 649,
-            image: "https://notebookspecialista.hu/files/pix-product/xperia-xz-premium-silver-front.png",
-            description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore enim eveniet fuga placeat velit. Dolorem minima nemo nulla perspiciatis totam. Consequuntur debitis dolorem eveniet illo magni nobis perspiciatis quidem quisquam.",
-            manufacturer: {
-                id: 2,
-                name: "Sony"
-            }
-        },
-        {
-            id: 13,
-            manId: 3,
-            name: "S7 Edge",
-            price: 659,
-            image: "https://www.boostmobile.com/content/dam/boostmobile/en/products/phones/samsung/s7-edge/black/device-front.png.transform/pdpCarousel/image.jpg",
-            description: '5.5" Quad HD Super AMOLED | 12 MP Phase Detection Autofocus Rear Camera / 5 MP Front Facing Camera | Android Marshmallow 6.0 | Wi-Fi 802.11 a/b/g/n/ac, Dual-Band, Wi-Fi Direct, Hotspot | Water-Resistant Features an IP68 Rating (30 Min. In 1m Of Water) | Low-Light Camera | Expandable Storage Up To 200 GB | Samsung Pay',
-            manufacturer: {
-                id: 3,
-                name: "Samsung"
-            }
-        },
-        {
-            id: 14,
-            manId: 3,
-            name: "S7 Edge",
-            price: 659,
-            image: "https://www.boostmobile.com/content/dam/boostmobile/en/products/phones/samsung/s7-edge/black/device-front.png.transform/pdpCarousel/image.jpg",
-            description: '5.5" Quad HD Super AMOLED | 12 MP Phase Detection Autofocus Rear Camera / 5 MP Front Facing Camera | Android Marshmallow 6.0 | Wi-Fi 802.11 a/b/g/n/ac, Dual-Band, Wi-Fi Direct, Hotspot | Water-Resistant Features an IP68 Rating (30 Min. In 1m Of Water) | Low-Light Camera | Expandable Storage Up To 200 GB | Samsung Pay',
-            manufacturer: {
-                id: 3,
-                name: "Samsung"
-            }
-        },
-        {
-            id: 15,
-            manId: 3,
-            name: "S7 Edge",
-            price: 659,
-            image: "https://www.boostmobile.com/content/dam/boostmobile/en/products/phones/samsung/s7-edge/black/device-front.png.transform/pdpCarousel/image.jpg",
-            description: '5.5" Quad HD Super AMOLED | 12 MP Phase Detection Autofocus Rear Camera / 5 MP Front Facing Camera | Android Marshmallow 6.0 | Wi-Fi 802.11 a/b/g/n/ac, Dual-Band, Wi-Fi Direct, Hotspot | Water-Resistant Features an IP68 Rating (30 Min. In 1m Of Water) | Low-Light Camera | Expandable Storage Up To 200 GB | Samsung Pay',
-            manufacturer: {
-                id: 3,
-                name: "Samsung"
-            }
-        },
-        {
-            id: 16,
-            manId: 3,
-            name: "S7 Edge",
-            price: 659,
-            image: "https://www.boostmobile.com/content/dam/boostmobile/en/products/phones/samsung/s7-edge/black/device-front.png.transform/pdpCarousel/image.jpg",
-            description: '5.5" Quad HD Super AMOLED | 12 MP Phase Detection Autofocus Rear Camera / 5 MP Front Facing Camera | Android Marshmallow 6.0 | Wi-Fi 802.11 a/b/g/n/ac, Dual-Band, Wi-Fi Direct, Hotspot | Water-Resistant Features an IP68 Rating (30 Min. In 1m Of Water) | Low-Light Camera | Expandable Storage Up To 200 GB | Samsung Pay',
-            manufacturer: {
-                id: 3,
-                name: "Samsung"
-            }
-        }
-    ] /**product is used for storing a single item */ ,
+    products: [],
+    /**product is used for storing a single item */
     product: "",
     cart: [],
-    user: ""
+    user: "",
+    filter: ""
 };
 
 const emptyUserObject = {
@@ -410,11 +47,11 @@ export const TYPES = {
         allProducts: "allProducts",
         productById: "productById",
         login: "login",
-        register: "register"
+        register: "register",
+
     },
     mutations: {
         allProducts: "allProducts",
-        setProducts: "setProducts",
         productById: "productById",
         ADD_TO_CART: "ADD_TO_CART",
         REMOVE_FROM_CART: "REMOVE_FROM_CART",
@@ -426,7 +63,8 @@ export const TYPES = {
         setMessage: "setMessage",
         showLoading: "showLoading",
         hideLoading: "hideLoading",
-        resetState: "resetState"
+        resetState: "resetState",
+        deleteProducts: "deleteProducts",
     },
     getters: {
         isLoggedIn: "isLoggedIn"
@@ -434,18 +72,40 @@ export const TYPES = {
 };
 
 const actions = {
+
     [TYPES.actions.allProducts]({ commit }) {
-        console.log("Fetch data here");
-        commit(TYPES.mutations.allProducts);
+        commit(TYPES.mutations.deleteMessage);
+
+        commit(TYPES.mutations.deleteProducts);
+
+
+        return Axios.get(`http://localhost:3000/products/getAllProducts`).then(res => {
+            if (res.data.status === true) {
+                console.log("products service:", res.data.products);
+                commit(TYPES.mutations.setMessage, res.data.message);
+                console.log("message:", res.data.message);
+
+                commit(TYPES.mutations.allProducts, res.data.products);
+                localStorage.setItem("products", JSON.stringify(res.data.products));
+                return res;
+            } else {
+                commit(TYPES.mutations.setMessage, res.data.message);
+                console.log("status not true");
+                console.log(res.data.message);
+                console.log(res.data.status);
+                return res;
+            }
+        }).catch(err => {
+            console.log("catch", err);
+            commit(TYPES.mutations.setMessage, "Error");
+            return Promise.reject(err);
+
+        })
     },
     [TYPES.actions.productById]({ commit }, { id }) {
         console.log("Fetch single data here");
         console.log("id: ", id);
         commit(TYPES.mutations.productById, id);
-    },
-    [TYPES.actions.login]({ commit }) {
-        //send request to server here
-        commit(TYPES.mutations.setUser, payload);
     },
     [TYPES.actions.register]({ commit }, { model }) {
 
@@ -456,7 +116,7 @@ const actions = {
         formData.append("email", model.email);
         formData.append("password", model.password);
 
-        return Axios.post(`${url}/users/register`, formData).then(res => {
+        return Axios.post(`http://localhost:3000/users/register`, formData).then(res => {
             console.log(res);
             commit(TYPES.mutations.hideLoading);
             console.log(state.showloader);
@@ -489,7 +149,7 @@ const actions = {
         formData.append("password", model.password);
         console.log(formData);
         console.log(model.email, ":", model.password);
-        return Axios.post(`${url}/users/login`, formData, ).then(res => {
+        return Axios.post(`http://localhost:3000/users/login`, formData, ).then(res => {
             commit(TYPES.mutations.hideLoading);
             if (res.data.status == true) {
                 commit(TYPES.mutations.setUser, res.data.user);
@@ -537,17 +197,26 @@ const getters = {
     message: state => {
         return state.message;
     },
-    [TYPES.getters.isLoggedIn]: state => Boolean(state.user.id)
+    [TYPES.getters.isLoggedIn]: state => Boolean(state.user.id),
+
+    filterProduct: state => {
+        return state.filter;
+    }
 
 };
 
 const mutations = {
-    [TYPES.mutations.allProducts]({ state }) {
-        console.log("Set data here");
+    [TYPES.mutations.setFilter](state, payload) {
+        state.filter = payload;
+        console.log(state.filter);
     },
-    [TYPES.mutations.setProducts](state, value) {
-        state.products = state.products.concat(value);
+    [TYPES.mutations.deleteProducts](state) {
+        state.products = [];
     },
+    [TYPES.mutations.allProducts](state, payload) {
+        state.products = payload;
+    },
+
     [TYPES.mutations.productById](state, id) {
         console.log("mutation id: ", id);
         //set single data here
@@ -562,7 +231,10 @@ const mutations = {
         //payload['quantity'] = 1 ;
         Vue.set(payload, "quantity", 1);
         //payload['current_price'] = payload.price;
-        Vue.set(payload, "current_price", payload.price);
+        Vue.set(payload, "current_price",
+            Math.round(100 / (payload.discount + 100) *
+                payload.price)
+        );
 
         console.log("payload after:", payload);
         state.cart.push(payload);
@@ -582,11 +254,14 @@ const mutations = {
             "quantity",
             payload.quant
         );
+
+
         Vue.set(
             state.cart.find(x => x.id === payload.id),
             "current_price",
-            state.cart.find(x => x.id === payload.id).quantity *
-            state.cart.find(x => x.id === payload.id).price
+            Math.round(state.cart.find(x => x.id === payload.id).quantity *
+                100 / (state.cart.find(x => x.id === payload.id).discount + 100) *
+                state.cart.find(x => x.id === payload.id).price)
         );
 
         console.log(state.cart.find(x => x.id === payload.id).quantity);

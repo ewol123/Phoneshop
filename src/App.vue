@@ -8,7 +8,7 @@
 
 <script>
 import navigation from '../src/components/navigation.vue'
-
+import {TYPES} from './store.js';
 export default {
   name: "App",
   data() {
@@ -21,6 +21,14 @@ export default {
   },
   components: {
     "navigation":navigation
+  },
+  mounted(){
+     this.$store.dispatch(TYPES.actions.allProducts);
+    if(!window.$cookies.get("token")){
+    
+    this.$store.commit(TYPES.mutations.resetState);
+      
+    }
   }
 };
 </script>

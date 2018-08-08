@@ -9,16 +9,21 @@
         </div>
         <div class="col-lg-8 col-md-8 col-sm-6 col-12 product-details__info">
           <div class="product-details__description">
-            <small>{{product.manufacturer && product.manufacturer.name}}</small>
+            <small>{{product.manufacturer}}</small>
             <h3>{{product.name}}</h3>
             <p>
               {{product.description}}
             </p>
           </div>
           <div class="product-details__price-cart">
-            <p  >${{product.price}}</p>
+            
+            <p>${{calculatePrice(product)}}</p>
+           
             <product-button  :product="product"></product-button>
           </div>
+           <template v-if="product.discount > 0">
+             <strong> {{product.discount}}% Off!</strong>
+            </template>
         </div>
       </div>
     </div>
@@ -63,6 +68,15 @@ export default {
     return {
       route: "Details"
     };
+  },
+  methods:{
+      calculatePrice(item){
+      let discount = item.discount + 100;
+      let max = 100;
+      let totaldisc = max / discount;
+
+      return Math.round(totaldisc * item.price);
+    },
   }
 };
 </script>

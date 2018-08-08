@@ -12,12 +12,20 @@ export default {
   props: ["product"],
   data() {
     return {
-      cart: this.$store.getters.cart
     };
   },
   computed: {
+    cart(){
+      return this.$store.getters.cart
+    },
     isAdding() {
-      return this.cart.indexOf(this.product) < 0;
+      if(this.cart.filter(x=>x.id === this.product.id).length > 0){
+        return false;
+      }
+      else{
+        return true;
+      }
+
     }
   },
   methods: {

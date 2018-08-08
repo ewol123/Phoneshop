@@ -22,9 +22,33 @@ import { TYPES } from "../store.js";
 export default {
 
     computed: {
-         cartItemsCount() {
+        cartItemsCount() {
         return this.$store.getters.cart;
         },
+      baseNav(){
+        return [
+        {
+          name: "Home",
+          id: "home",
+          path: "/",
+          class: "fa fa-home"
+        },
+        {
+          name: "Admin",
+          id: "admin",
+          path: "/admin",
+          class: "fa fa-user"
+        },
+        {
+          name:`Cart(${this.cartItemsCount.length})`,
+          id: "cart",
+          path: "/cart",
+          class: "fa fa-shopping-cart"
+        }
+       
+      ]
+      },
+       
          ...mapGetters({ isLoggedIn: TYPES.getters.isLoggedIn }),
           itemCollection() {
       if (this.isLoggedIn) {
@@ -36,12 +60,6 @@ export default {
             path: "/profile",
             class:"fa fa-user-circle"
           },
-          {
-          name:`Cart(${this.cartItemsCount.length})`,
-          id: "cart",
-          path: "/cart",
-          class: "fa fa-shopping-cart"
-        }
         ];
       } else {
         return [
@@ -58,22 +76,7 @@ export default {
     },
     data() {
     return {
-      baseNav: [
-        {
-          name: "Home",
-          id: "home",
-          path: "/",
-          class: "fa fa-home"
-        },
-        {
-          name: "Admin",
-          id: "admin",
-          path: "/admin",
-          class: "fa fa-user"
-        },
-        
-       
-      ]
+     
     };
   }
 }

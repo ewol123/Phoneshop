@@ -55,7 +55,7 @@
          <!--/featured-text-->
 
          <!--product list-->
-            <product-list page="home"></product-list>
+            <product-list ></product-list>
          <!--/product list-->
         
       

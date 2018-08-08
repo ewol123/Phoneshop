@@ -13,7 +13,7 @@
       <div class="col-12 col-md-4 col-lg-3 text-center">
         <small>{{product.manufacturer && product.manufacturer.name}}</small>
             <h3>{{product.name}}</h3>
-            <p>Price: <strong>US ${{product.price}}</strong></p>
+            <p>Price: <strong>US ${{calculatePrice(product)}}</strong></p>
            
       </div>
     
@@ -93,7 +93,14 @@ export default {
       successful: false
     };
   },
-  methods: {
+  methods: {  
+    calculatePrice(item){
+      let discount = item.discount + 100;
+      let max = 100;
+      let totaldisc = max / discount;
+
+      return Math.round(totaldisc * item.price);
+    },
     paymentdone() {
       this.successful = true;
 
