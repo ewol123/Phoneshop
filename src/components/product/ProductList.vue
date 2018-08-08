@@ -90,14 +90,13 @@ export default {
         if((this.products.length - this.index) /step < 1) {
         for( let i = this.index; i<this.products.length;i++){
           this.list = this.list.concat(this.products[i]);
+          $state.loaded();
         }
-       
+          $state.complete();
         }
       else{
+          $state.loaded();
   }
-
- 
-
   }, 1000);
     }
   },
