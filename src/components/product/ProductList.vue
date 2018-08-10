@@ -95,10 +95,10 @@ export default {
           this.list = this.list.concat(this.products[i]);
           $state.loaded();
         }
-        $state.complete();
+          $state.complete();
         }
       else{
-        $state.loaded();
+          $state.loaded();
   }
   }, 1000);
     }
