@@ -13,9 +13,9 @@
     </b-row>
          <!--categories-->
     <b-row>
-     <b-col class="categ text-center" cols="4">Samsung</b-col> 
-     <b-col class="categ text-center" cols="4">Apple</b-col>   
-     <b-col class="categ text-center" cols="4">Sony</b-col>          
+    <b-col v-on:click="goToRoute({path: '/shop/Samsung/n'})" class="categ text-center" cols="4">Samsung</b-col>
+     <b-col v-on:click="goToRoute({path: '/shop/Apple/n'})" class="categ text-center" cols="4">Apple</b-col>   
+     <b-col v-on:click="goToRoute({path: '/shop/Sony/n'})" class="categ text-center" cols="4">Sony</b-col>          
     </b-row>
          <!--/categories-->
 
@@ -76,6 +76,11 @@ export default {
     searchnav,
     "my-footer": Footer,
     "product-list": ProductList
+  },
+  methods: {
+    goToRoute(route){
+      this.$router.push(route);
+    }
   }
 };
 </script>

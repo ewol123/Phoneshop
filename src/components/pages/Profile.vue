@@ -6,7 +6,7 @@
             <a class="btn btn-light col-12 my-2" v-on:click="profileTab='Profile'">Your profile</a>
             <a class="btn btn-light col-12 my-2" v-on:click="profileTab='Profile-edit'">Edit profile</a>
             <a class="btn btn-light col-12 my-2" v-on:click="profileTab='Orderhistory'">Order history</a>
-            <i class="fa fa-sign-out fa-3x fa-rotate-180 col-12 " v-on:click="logout()"></i>
+            <i class="fa fa-sign-out fa-3x fa-rotate-180 col-12 text-center " v-b-tooltip.hover.bottom="'Logout'" v-on:click="logout()"></i>
         </div>
         </div>
 
@@ -15,7 +15,7 @@
         <div class="col-12">
         <profile  v-if="profileTab === 'Profile'" :User="User"></profile>
         <profile-edit v-else-if="profileTab ==='Profile-edit'" :user="User"></profile-edit>
-        <order-history v-else-if="profileTab ==='Orderhistory'"></order-history>
+        <order-history v-else-if="profileTab ==='Orderhistory'" ></order-history>
         </div>
         </div>
         
@@ -34,7 +34,16 @@ import { mapGetters, mapMutations } from "vuex";
 import { TYPES } from "../../store.js";
 
 export default {
+    mounted(){
+       if(!this.$cookies.get("token")){
+           this.logout();
+       }
 
+    let userToken = this.$cookies.get("token");
+    this.$store.dispatch(TYPES.actions.getOrders, {id:this.User.id, token:userToken});
+
+        console.log("user: ",localStorage.getItem("user"));
+    },
 
     computed: {
         User(){
@@ -51,11 +60,11 @@ export default {
             ...mapMutations([TYPES.mutations.deleteUser]),
             logout(){
                   this.$cookies.remove("token");
-                  localStorage.clear();
+                  localStorage.removeItem("user");
+                  localStorage.removeItem("orders");                  
                   this.deleteUser();
                   this.$router.push({name:"Home"});
                   this.$store.commit(TYPES.mutations.resetState);
-                  
             }
         },
     components: {

@@ -141,7 +141,56 @@ const userController = {
     },
 
     changeProfile(req, res) {
-        console.log("changeProfile");
+
+
+        if (methods.isEmpty(req.body.password)) {
+            return res.json({
+                status: false,
+                message: "Password can't be empty"
+            });
+        }
+
+        bcrypt.hash(req.body.password, saltRounds, function(err, hash) {
+            let sql = `UPDATE users SET city ='${req.body.city}', address='${req.body.address}'
+          ,state ='${req.body.state}',zip ='${req.body.zip}',
+          birthdate='${req.body.birthdate}',pw='${hash}',gender='${req.body.gender}',
+          name='${req.body.name}',email='${req.body.email}' WHERE id ='${req.body.id}'`;
+
+            con.query(sql, function(err, result) {
+                if (err) {
+                    return res.json({
+                        status: false,
+                        message: "Error while handling operation, please try again"
+                    });
+                }
+                console.log("1 record updated");
+
+                let query = `SELECT * FROM users WHERE id='${req.body.id}'`;
+                console.log(query);
+
+                con.query(query, (err, result) => {
+                    if (err) {
+                        return res.json({
+                            status: false,
+                            message: "Error, please refresh page"
+                        });
+                    };
+                    let user = result[0];
+                    delete user.pw;
+                    console.log(result[0]);
+                    console.log(result)
+
+                    return res.json({
+                        status: true,
+                        user: user,
+                        message: "Changed successfully"
+
+
+                    });
+                });
+
+            });
+        });
 
 
 

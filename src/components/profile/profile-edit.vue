@@ -40,7 +40,7 @@
                                     </tr>
                                     <tr>
                                         <th scope="row">Birth date /yy/mm/dd:</th>
-                                        <td> <input type="text" class="form-control" v-model="user.birthdate" placeholder="Birth date" aria-label="Username" aria-describedby="basic-addon1"></td>
+                                        <td> <input type="date" class="form-control" v-model="user.birthdate" placeholder="Birth date" aria-label="Username" aria-describedby="basic-addon1"></td>
                                     </tr>
                                     <tr>
                                         <th scope="row">Gender:</th>
@@ -63,25 +63,78 @@
                             </div>
 
                             <div class="text-center mb-3" >
-                                <a  class="btn btn-primary text-light ml-lg-2" >Confirm</a>
+                                <a v-on:click="changeProfile()" class="btn btn-primary text-light ml-lg-2" >Confirm</a>
                         </div>
+                       <template v-if="isLoading">
+                        <wave-spin class="mx-auto"></wave-spin>
+                       </template>
+                       <template v-else>
+                           <p class="mx-auto">{{Message}}</p>
+                       </template>
                     </div>
-                </div>
-            </div>
+              
 </template>
 
 
 
 
 <script>
+import  { TYPES } from "../../store.js";
+import WaveSpin from 'vue-loading-spinner/src/components/Wave.vue'
 export default {
+    mounted(){
+        console.log("profile-message: ", this.Message);
+    },
     props: ['user'],
+    components: {
+        "wave-spin":WaveSpin
+    },
+    computed: {
+        isLoading(){
+            return this.$store.getters.loading;
+        },
+        Message(){
+            return this.$store.getters.message
+        }
+    },
     data(){
         return {
         passwordVisible: false,
         password:'',
         c_password:''
         }
+    },
+    methods: {
+         validate() {
+      // checks all the form params are set and the passwords match
+      if (this.password != this.c_password  ) {
+        return false;
+      }
+
+      return true;
+    },
+         changeProfile(){
+            let valid =this.validate();     
+            console.log(valid);          
+            if(valid){  
+                
+               
+        let token = this.$cookies.get("token");
+           this.$store.dispatch(TYPES.actions.changeUser, {user: this.user, pw:this.password, token:token})
+           .then(res =>{
+               if (res.data.status === true) {
+           
+      } else {
+           console.log(`${this.Message}`);
+      }
+           }).catch(res => {alert(`${this.Message}`)});
+            }
+            else{
+                alert("password dont match");
+             
+            }
+                    
+           }
     }
     
 }

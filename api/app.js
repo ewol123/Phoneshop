@@ -6,6 +6,7 @@ const logger = require('morgan');
 const multipart = require("connect-multiparty");
 const usersRouter = require('./routes/users');
 const productsRouter = require('./routes/product');
+const ordersRouter = require('./routes/orders');
 const bodyParser = require("body-parser");
 
 const CheckUser = require('./public/javascripts/methods');
@@ -45,7 +46,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/users', multipartMiddleware, usersRouter);
 app.use('/products', multipartMiddleware, productsRouter);
-
+app.use('/orders', multipartMiddleware, ordersRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

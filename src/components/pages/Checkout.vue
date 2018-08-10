@@ -46,6 +46,9 @@ export default {
   components: {
     "checkout-form": CheckoutForm,
     "checkout-list": CheckoutList
+  },
+  mounted(){
+    console.log(this.$store.getters.cart);
   }
 };
 </script>

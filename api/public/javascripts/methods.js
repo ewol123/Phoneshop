@@ -12,6 +12,8 @@ module.exports = {
         if (req.path == '/users/register') return next();
         if (req.path == '/users/login') return next();
         if (req.path == '/products/getAllProducts') return next();
+        if (req.path == '/orders/setOrder') return next();
+
 
 
 
@@ -22,7 +24,7 @@ module.exports = {
         // decode token
         if (token) {
             // verifies secret and checks exp
-            jwt.verify(token, "secretforinvoicingapp", function(err, decoded) {
+            jwt.verify(token, "secretforphoneshopapp", function(err, decoded) {
                 if (err) {
                     return res.json({
                         success: false,

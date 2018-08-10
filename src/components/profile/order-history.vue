@@ -8,38 +8,39 @@
       <th scope="col">Item</th>
     </tr>
   </thead>
-  <tbody>
+  <tbody v-for="item in orders" :key="item.orderId">
+    
     <tr>
-      <th scope="row">1</th>
-      <td>2018-02-03</td>
-      <td>US $489</td>
-      <td><router-link to="/details/3">View</router-link></td>      
+      <th scope="row">{{item.orderId}}</th>
+      <td>{{item.orderDate}}</td>
+      <td>US ${{item.price}}</td>
+      <td><router-link :to="setRoute(item)">View</router-link></td>      
     </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>2018-03-04</td>
-      <td>US $758</td>
-      <td><router-link to="/details/1">View</router-link></td>      
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td>2018-04-05</td>
-      <td>US $589</td>
-      <td><router-link to="/details/4">View</router-link></td>         
-    </tr>
-     <tr>
-      <th scope="row">4</th>
-      <td>2018-06-09</td>
-      <td>US $894</td>
-      <td><router-link to="/details/2">View</router-link></td>            
-    </tr>
+    
+    
   </tbody>
 </table>
+
 </template>
 
 
 <script>
+import {TYPES} from '../../../src/store.js';
 export default {
+  methods:{
+    setRoute(item){
+      let route =  `/details/${item.itemId}`;
+      return route;
+    }
+  },
+  
+  computed:{
+    
+    orders(){
+      return JSON.parse(localStorage.getItem("orders"));
+
+    }
+  }
     
 }
 </script>

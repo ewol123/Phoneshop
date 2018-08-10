@@ -44,6 +44,7 @@
                         </div>
                         <div class="row text-center pt-4">
                             <div class="col-12">
+                              <template v-if="ShipAddress">
                              <PayPal
                               v-on:payment-completed="paymentdone()"
                               :amount="allPrice.toString()"
@@ -52,6 +53,11 @@
                               env="sandbox"
                               >
                             </PayPal>
+                            </template>
+                            <template v-else>
+                              Please check your shipping address
+                            </template>
+                             <p>{{this.Message}}</p>
                             </div>
                         </div>
                     </div>
@@ -69,7 +75,15 @@ import PayPal from "vue-paypal-checkout";
 import { TYPES } from "../../store.js";
 export default {
   props: ["Cart"],
+  
   computed: {
+    Message(){
+      return this.$store.getters.message;
+    },
+    ShipAddress(){
+     if(this.$store.getters.shipAddress.length > 0) return true;
+     else return false;
+    },    
     allPrice() {
       let sum = 0;
       this.Cart.forEach(product => {
@@ -103,6 +117,33 @@ export default {
     },
     paymentdone() {
       this.successful = true;
+      let cart = this.$store.getters.cart;
+      let address = this.$store.getters.shipAddress;
+      let user = [];
+      if(window.$cookies.get("token")){
+         user = [JSON.parse(localStorage.getItem("user"))];
+      }
+      else{
+         user =[{
+        id:'',
+        city:'',
+        address:'',
+        state:'',
+        zip:'',
+        birthdate:'',
+        gender:'',
+        name:'',
+        email:''
+      }];
+      }
+
+      console.log("paymentdone-cart: ",cart);
+      console.log("paymentdone-address: ",address);
+      console.log("paymentdone-user: ",user);
+      
+      
+
+      this.$store.dispatch(TYPES.actions.setOrder, {cart: cart, address: address, user: user});
 
       setTimeout(
         function() {

@@ -34,25 +34,28 @@ export default {
   created() {
 
 
+    
     for (let i = 0; i < this.index; i++) {
       this.list.push(this.products[i]);
     }
 
+
     console.log("created", this.list);
     console.log("products length", this.products.length);
+    
   },
   computed: {
     products: {
       get: function() {
        
-        let products = JSON.parse(localStorage.getItem("products"));
-        return products;
+        let product = JSON.parse(localStorage.getItem("products"));
+        return product;
       
         
       
       },
       set: function(value) {
-  console.log("called set on products");
+      console.log("set called");
       }
     },
 
@@ -90,14 +93,13 @@ export default {
         if((this.products.length - this.index) /step < 1) {
         for( let i = this.index; i<this.products.length;i++){
           this.list = this.list.concat(this.products[i]);
+          $state.loaded();
         }
-       
+        $state.complete();
         }
       else{
+        $state.loaded();
   }
-
- 
-
   }, 1000);
     }
   },

@@ -20,7 +20,16 @@ import { mapGetters, mapMutations } from "vuex";
 import { TYPES } from "../store.js";
 
 export default {
-
+    methods: {
+        ...mapMutations([TYPES.mutations.deleteUser]),
+        logout(){
+                  this.$cookies.remove("token");
+                  localStorage.removeItem("user");
+                  localStorage.removeItem("orders");
+                  this.deleteUser();
+                  this.$store.commit(TYPES.mutations.resetState);
+            }
+    },
     computed: {
         cartItemsCount() {
         return this.$store.getters.cart;
@@ -43,7 +52,8 @@ export default {
           name:`Cart(${this.cartItemsCount.length})`,
           id: "cart",
           path: "/cart",
-          class: "fa fa-shopping-cart"
+          class: "fa fa-shopping-cart",
+           
         }
        
       ]
@@ -60,6 +70,7 @@ export default {
             path: "/profile",
             class:"fa fa-user-circle"
           },
+        
         ];
       } else {
         return [

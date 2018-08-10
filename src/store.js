@@ -11,11 +11,14 @@ Vue.use(Vuex);
 let initialState = {
     showloader: false,
     status: false,
+    message: "",
     products: [],
     /**product is used for storing a single item */
     product: "",
     cart: [],
-    user: ""
+    user: "",
+    filter: "",
+    shipAddress: []
 }
 
 const state = {
@@ -27,7 +30,8 @@ const state = {
     product: "",
     cart: [],
     user: "",
-    filter: ""
+    filter: "",
+    shipAddress: []
 };
 
 const emptyUserObject = {
@@ -48,6 +52,9 @@ export const TYPES = {
         productById: "productById",
         login: "login",
         register: "register",
+        changeUser: "changeUser",
+        setOrder: "setOrder",
+        getOrders: "getOrders"
 
     },
     mutations: {
@@ -65,6 +72,7 @@ export const TYPES = {
         hideLoading: "hideLoading",
         resetState: "resetState",
         deleteProducts: "deleteProducts",
+        setShippingAddress: "setShippingAddress"
     },
     getters: {
         isLoggedIn: "isLoggedIn"
@@ -72,15 +80,112 @@ export const TYPES = {
 };
 
 const actions = {
+    [TYPES.actions.getOrders]({ commit }, { id, token }) {
+        commit(TYPES.mutations.showLoading);
+        commit(TYPES.mutations.deleteMessage);
+        console.log("ezaz id: ", id);
+        return Axios.get(`http://localhost:3000/orders/getOrders/${id}`, {
+            headers: {
+                "x-access-token": token
+            },
+        }).then(res => {
+            if (res.data.status === true) {
+                commit(TYPES.mutations.setMessage, res.data.message);
+                console.log("message:", res.data.message);
+
+                localStorage.setItem("orders", JSON.stringify(res.data.orders));
+                console.log("orders:", res.data.orders);
+                commit(TYPES.mutations.hideLoading);
+                return res;
+            } else {
+                commit(TYPES.mutations.hideLoading);
+                commit(TYPES.mutations.setMessage, res.data.message);
+                console.log("status not true");
+                console.log(res.data.message);
+                console.log(res.data.status);
+                return res;
+            }
+        }).catch(err => {
+            console.log("catch", err);
+            commit(TYPES.mutations.hideLoading);
+            commit(TYPES.mutations.setMessage, "Error");
+            return Promise.reject(err);
+        })
+    },
+    [TYPES.actions.setOrder]({ commit }, { cart, address, user }) {
+        commit(TYPES.mutations.deleteMessage);
+        commit(TYPES.mutations.showLoading);
+        const formData = new FormData();
+        formData.append("cart", JSON.stringify(cart));
+        formData.append("address", JSON.stringify(address));
+        formData.append("user", JSON.stringify(user));
+
+        return Axios.post("http://localhost:3000/orders/setOrder", formData).then(res => {
+            commit(TYPES.mutations.showLoading);
+
+            if (res.data.status === true) {
+                commit(TYPES.mutations.hideLoading);
+                commit(TYPES.mutations.setMessage, res.data.message);
+
+            }
+        }).catch(err => {
+            commit(TYPES.mutations.hideLoading);
+            commit(TYPES.mutations.setMessage, "Error");
+            return Promise.reject(err);
+        });
+
+
+    },
+    [TYPES.actions.changeUser]({ commit }, { user, pw, token }) {
+        commit(TYPES.mutations.deleteMessage);
+        commit(TYPES.mutations.showLoading);
+
+        const formData = new FormData();
+        formData.append("id", user.id);
+        formData.append("city", user.city);
+        formData.append("address", user.address);
+        formData.append("state", user.state);
+        formData.append("zip", user.zip);
+        formData.append("birthdate", user.birthdate);
+        formData.append("gender", user.gender);
+        formData.append("name", user.name);
+        formData.append("email", user.email);
+        formData.append("password", pw);
+        return Axios.put("http://localhost:3000/users/changeProfile", formData, {
+            headers: {
+                "x-access-token": token
+            },
+        }).then(res => {
+            if (res.data.status == true) {
+                commit(TYPES.mutations.hideLoading);
+                localStorage.setItem("user", JSON.stringify(res.data.user));
+                commit(TYPES.mutations.setMessage, res.data.message);
+                commit(TYPES.mutations.setUser, res.data.user);
+                return res;
+            } else {
+                commit(TYPES.mutations.hideLoading);
+                commit(TYPES.mutations.setMessage, res.data.message);
+                return res;
+            }
+
+        }).catch(err => {
+            commit(TYPES.mutations.hideLoading);
+            commit(TYPES.mutations.setMessage, "Error");
+            return Promise.reject(err);
+        });
+    },
 
     [TYPES.actions.allProducts]({ commit }) {
+        commit(TYPES.mutations.showLoading);
         commit(TYPES.mutations.deleteMessage);
-
         commit(TYPES.mutations.deleteProducts);
 
 
         return Axios.get(`http://localhost:3000/products/getAllProducts`).then(res => {
             if (res.data.status === true) {
+                commit(TYPES.mutations.hideLoading);
+
+
                 console.log("products service:", res.data.products);
                 commit(TYPES.mutations.setMessage, res.data.message);
                 console.log("message:", res.data.message);
@@ -89,6 +194,7 @@ const actions = {
                 localStorage.setItem("products", JSON.stringify(res.data.products));
                 return res;
             } else {
+                commit(TYPES.mutations.hideLoading);
                 commit(TYPES.mutations.setMessage, res.data.message);
                 console.log("status not true");
                 console.log(res.data.message);
@@ -96,6 +202,7 @@ const actions = {
                 return res;
             }
         }).catch(err => {
+            commit(TYPES.mutations.hideLoading);
             console.log("catch", err);
             commit(TYPES.mutations.setMessage, "Error");
             return Promise.reject(err);
@@ -201,11 +308,17 @@ const getters = {
 
     filterProduct: state => {
         return state.filter;
+    },
+    shipAddress: state => {
+        return state.shipAddress;
     }
 
 };
 
 const mutations = {
+    [TYPES.mutations.setShippingAddress](state, payload) {
+        state.shipAddress = payload;
+    },
     [TYPES.mutations.setFilter](state, payload) {
         state.filter = payload;
         console.log(state.filter);
@@ -283,6 +396,9 @@ const mutations = {
     },
     [TYPES.mutations.setMessage](state, payload) {
         state.message = payload;
+        setTimeout(function() {
+            state.message = "";
+        }, 3000);
     },
     [TYPES.mutations.hideLoading](state) {
         state.showloader = false
