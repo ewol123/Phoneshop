@@ -80,7 +80,7 @@
 
 <script>
 import { TYPES } from "../../store.js";
-import ProductButton from "../../components/product/ProductButton";
+import productbutton from "../../components/product/productbutton";
 export default {
   props: ["cart"],
   mounted() {
@@ -112,7 +112,7 @@ export default {
     }
   },
   components: {
-    "product-button": ProductButton
+    "product-button": productbutton
   },
   computed: {
     allPrice() {

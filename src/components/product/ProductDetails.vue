@@ -57,11 +57,11 @@
 </template>
 
 <script>
-import ProductButton from "./ProductButton";
+import productbutton from "./productbutton";
 export default {
   props: ["product", "page"],
   components: {
-    "product-button": ProductButton
+    "product-button": productbutton
   },
   mounted() {},
   data() {

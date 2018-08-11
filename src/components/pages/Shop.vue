@@ -44,12 +44,12 @@
 
 <script>
 import searchnav from "../../components/searchnav.vue";
-import ShopList from '../../components/shop/ShopList.vue';
+import shoplist from '../../components/shop/shoplist.vue';
 import {TYPES} from '../../../src/store.js'
 export default {
   components: {
     searchnav,
-    "shop-list":ShopList
+    "shop-list":shoplist
   },
     mounted(){
       console.log("params: ", this.$route.params);

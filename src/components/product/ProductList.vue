@@ -17,8 +17,8 @@
 
 
         </div>
-        <infinite-loading v-if="index < products.length" class="mx-auto" @infinite="infiniteHandler"></infinite-loading>
-       
+        <infinite-loading  v-if="index < products.length" class="mx-auto" @infinite="infiniteHandler"></infinite-loading>
+          
       </div>
     </div>
   </div>
@@ -26,7 +26,7 @@
 
 <script>
 /* eslint-disable */
-import ProductItem from "./ProductItem.vue";
+import productitem from "./productitem.vue";
 import InfiniteLoading from "vue-infinite-loading";
 import { TYPES } from "../../../src/store.js";
 export default {
@@ -47,12 +47,8 @@ export default {
   computed: {
     products: {
       get: function() {
-       
         let product = JSON.parse(localStorage.getItem("products"));
         return product;
-      
-        
-      
       },
       set: function(value) {
       console.log("set called");
@@ -75,17 +71,6 @@ export default {
       setTimeout(() => {
         const temp = [];
         let step = 4;
-      
-
-        for (let i = this.index; i < this.index + step; i++) {
-          temp.push(this.products[i]);
-        }
-        this.list = this.list.concat(temp);
-        console.log("newlista", this.list);
-        console.log("end of list: ", this.products.length);
-        this.index += 4;
-        console.log("index", this.index);
-
       /*here we check if array.length - index / steps is smaller than one, 
         if so that means we cant load "steps" amount of data, because we don't have that much,
         so we just load the rest of them at once.
@@ -100,11 +85,27 @@ export default {
       else{
           $state.loaded();
   }
+        if(this.index < this.products.length){
+        for (let i = this.index; i < this.index + step; i++) {
+          temp.push(this.products[i]);
+        }
+        this.list = this.list.concat(temp);
+        console.log("newlista", this.list);
+        console.log("end of list: ", this.products.length);
+        this.index += 4;
+        console.log("index", this.index);
+        $state.loaded();
+      }
+      else {
+        $state.complete();
+      }
+
+      
   }, 1000);
     }
   },
   components: {
-    "product-item": ProductItem,
+    "product-item": productitem,
     InfiniteLoading
   }
 };

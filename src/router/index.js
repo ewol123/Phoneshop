@@ -7,6 +7,12 @@ import Cart from '@/components/pages/Cart'
 import Checkout from '@/components/pages/Checkout'
 import SignIn from '@/components/pages/SignIn'
 import Profile from '@/components/pages/Profile'
+import Admin from '@/components/pages/Admin'
+import New from '@/components/admin/new';
+import Products from '@/components/admin/products';
+import Edit from '@/components/admin/edit';
+
+
 
 Vue.use(Router)
 
@@ -67,5 +73,26 @@ export default new Router({
             component: Profile,
             beforeEnter: Authenticated
         },
+        {
+            path: '/admin',
+            name: 'Admin',
+            component: Admin,
+            children: [{
+                    path: 'new',
+                    name: 'New',
+                    component: New
+                },
+                {
+                    path: '',
+                    name: 'Products',
+                    component: Products
+                },
+                {
+                    path: 'edit/:id',
+                    name: 'Edit',
+                    component: Edit
+                }
+            ]
+        }
     ]
 })

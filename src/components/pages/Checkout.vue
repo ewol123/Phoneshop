@@ -35,8 +35,8 @@
 
 
 <script>
-import CheckoutForm from "../../components/checkout/CheckoutForm.vue";
-import CheckoutList from "../../components/checkout/CheckoutList.vue";
+import checkoutform from "../../components/checkout/checkoutform.vue";
+import checkoutlist from "../../components/checkout/checkoutlist.vue";
 export default {
   computed: {
     Cart() {
@@ -44,8 +44,8 @@ export default {
     }
   },
   components: {
-    "checkout-form": CheckoutForm,
-    "checkout-list": CheckoutList
+    "checkout-form": checkoutform,
+    "checkout-list": checkoutlist
   },
   mounted(){
     console.log(this.$store.getters.cart);

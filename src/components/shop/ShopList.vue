@@ -3,7 +3,6 @@
     <div class="products">
       <div class="container">
 
- 
             <div class="row">
 
         <div v-if="products.length > 0" class="col-12 col-lg-4 my-3" v-for="product in list" :key="product.id">
@@ -15,14 +14,16 @@
         </div>
 
         <strong class="mx-auto"><p  v-if="products.length === 0">Item not found...</p></strong>
-           
-
-
-
+       
         </div>
-        <infinite-loading ref="infiniteLoading" v-if="index < products.length" class="mx-auto" @infinite="infiniteHandler"></infinite-loading>
        
       </div>
+       <template v-if="index < products.length">
+        <infinite-loading ref="infiniteLoading"  class="mx-auto" @infinite="infiniteHandler"></infinite-loading>
+        </template>
+        <template v-else>
+          <p class="text-muted text-center"><small>Loaded everything!</small></p>
+        </template>
     </div>
   </div>
 </template>
@@ -31,7 +32,7 @@
 
 
 <script>
-import ProductItem from "../../components/product/ProductItem.vue";
+import productitem from "../../components/product/productitem.vue";
 import InfiniteLoading from "vue-infinite-loading";
 export default {
    data(){
@@ -80,7 +81,7 @@ export default {
     },
    props: ['products'],
    components: {
-    "product-item": ProductItem,
+    "product-item": productitem,
     InfiniteLoading
    },
   

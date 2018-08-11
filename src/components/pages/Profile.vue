@@ -27,9 +27,9 @@
 
 
 <script>
-import Profile from '../../components/profile/profile'
-import ProfileEdit from '../../components/profile/profile-edit'
-import OrderHistory from '../../components/profile/order-history'
+import profile from '../../components/profile/profile'
+import profileedit from '../../components/profile/profile-edit'
+import orderhistory from '../../components/profile/order-history'
 import { mapGetters, mapMutations } from "vuex";
 import { TYPES } from "../../store.js";
 
@@ -68,9 +68,9 @@ export default {
             }
         },
     components: {
-        "profile":Profile,
-        "profile-edit":ProfileEdit,
-        "order-history":OrderHistory
+        "profile":profile,
+        "profile-edit":profileedit,
+        "order-history":orderhistory
     }
     
 }

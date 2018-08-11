@@ -22,10 +22,9 @@
 
 <script>
 import { TYPES } from "../../store.js";
-import ProductDetails from "../../components/product/ProductDetails";
 import searchnav from "../../components/searchnav";
-import ProductButton from "../../components/product/ProductButton";
-import CartList from "../../components/cart/CartList";
+import productbutton from "../../components/product/productbutton";
+import cartlist from "../../components/cart/cartlist";
 export default {
   data() {
     return {
@@ -34,10 +33,9 @@ export default {
     };
   },
   components: {
-    productDetails: ProductDetails,
     searchnav,
-    "product-button": ProductButton,
-    "cart-list": CartList
+    "product-button": productbutton,
+    "cart-list": cartlist
   },
   methods: {},
   computed: {

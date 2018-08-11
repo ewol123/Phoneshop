@@ -36,12 +36,12 @@
 
 <script>
 /* eslint-disable */
-import ProductButton from "./ProductButton.vue";
+import productbutton from "./productbutton.vue";
 export default {
   name: "product-item",
   props: ["product"],
   components: {
-    "product-button": ProductButton
+    "product-button": productbutton
   },
   methods: {
     calculatePrice(item){

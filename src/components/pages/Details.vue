@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import ProductDetails from "../../components/product/ProductDetails";
+import productdetails from "../../components/product/productdetails";
 export default {
   mounted() {
     this.$store.dispatch("productById", { id: this.$route.params["id"] });
@@ -25,7 +25,7 @@ export default {
     };
   },
   components: {
-    "product-details": ProductDetails
+    "product-details": productdetails
   }
 };
 </script>

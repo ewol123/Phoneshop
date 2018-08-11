@@ -69,13 +69,13 @@
 <script>
 /* eslint-disable */
 import searchnav from "../../components/searchnav.vue";
-import ProductList from "../../components/product/ProductList.vue";
-import Footer from "../../components/footer.vue";
+import productlist from "../../components/product/productlist.vue";
+import footer from "../../components/footer.vue";
 export default {
   components: {
     searchnav,
-    "my-footer": Footer,
-    "product-list": ProductList
+    "my-footer": footer,
+    "product-list": productlist
   },
   methods: {
     goToRoute(route){
