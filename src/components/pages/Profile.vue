@@ -42,7 +42,6 @@ export default {
     let userToken = this.$cookies.get("token");
     this.$store.dispatch(TYPES.actions.getOrders, {id:this.User.id, token:userToken});
 
-        console.log("user: ",localStorage.getItem("user"));
     },
 
     computed: {

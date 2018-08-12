@@ -47,6 +47,7 @@
                               <template v-if="ShipAddress">
                              <PayPal
                               v-on:payment-completed="paymentdone()"
+                              v-on:payment-authorized="showit()"
                               :amount="allPrice.toString()"
                               currency="USD"
                               :client="credentials"
@@ -107,14 +108,18 @@ export default {
       successful: false
     };
   },
-  methods: {  
-    calculatePrice(item){
-      let discount = item.discount + 100;
+  methods: {
+    showit(){
+      this.$store.commit(TYPES.mutations.showLoading);
+    },  
+     calculatePrice(item){
+      let discount = parseInt(item.discount);
       let max = 100;
-      let totaldisc = max / discount;
+      let totaldisc = (max - discount) /100;
 
       return Math.round(totaldisc * item.price);
     },
+   
     paymentdone() {
       this.successful = true;
       let cart = this.$store.getters.cart;
@@ -137,20 +142,14 @@ export default {
       }];
       }
 
-      console.log("paymentdone-cart: ",cart);
-      console.log("paymentdone-address: ",address);
-      console.log("paymentdone-user: ",user);
-      
-      
-
       this.$store.dispatch(TYPES.actions.setOrder, {cart: cart, address: address, user: user});
 
       setTimeout(
         function() {
-          this.$router.push({ name: "Home" });
           this.$store.commit(TYPES.mutations.emptyCart);
+          this.$router.push({ name: "Home" });
         }.bind(this),
-        4000
+        3000
       );
     }
   }

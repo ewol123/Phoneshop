@@ -46,7 +46,6 @@ export default {
         return filtered;
       },
       set: function(value) {
-      console.log("set called");
       }
     },
 

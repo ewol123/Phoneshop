@@ -71,9 +71,9 @@ export default {
   },
   methods:{
       calculatePrice(item){
-      let discount = item.discount + 100;
+      let discount = parseInt(item.discount);
       let max = 100;
-      let totaldisc = max / discount;
+      let totaldisc = (max - discount) /100;
 
       return Math.round(totaldisc * item.price);
     },

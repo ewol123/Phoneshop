@@ -55,7 +55,7 @@
           Products(){
               //if search text is empty we just return all products
               if(this.searchText === '') {
-                  console.log("search is empty");
+                  
                  
                  
              return this.$store.getters.allProducts;
@@ -89,8 +89,6 @@
       },
       methods: {
             deleteProduct(id,index){
-                console.log("id: ",id);
-                console.log("index: ",index);
                 let token = this.$cookies.get("token");
                 let user = JSON.parse(localStorage.getItem("user"));
                 let useremail = user.email;

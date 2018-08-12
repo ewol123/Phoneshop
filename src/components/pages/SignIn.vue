@@ -185,7 +185,7 @@ export default {
              if(r.data.status === true){
              this.$cookies.set("token",r.data.token,"24h");                 
               this.$router.push({ name: "Profile" });
-
+              this.$store.commit(TYPES.mutations.deleteShippingAddress);
                 }
                
         }).catch(err =>{return Promise.reject(err)});

@@ -52,7 +52,6 @@ export default {
     "shop-list":shoplist
   },
     mounted(){
-      console.log("params: ", this.$route.params);
     },
     computed: {
      
@@ -61,7 +60,6 @@ export default {
          return products;
       },
      filteredCollection(){
-       console.log("collection changed");
        if(this.$route.params.message === "n"){
 
        switch (this.$route.params.filter) {

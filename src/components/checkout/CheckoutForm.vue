@@ -51,7 +51,6 @@ export default {
   created(){
     if(window.$cookies.get("token")){
       this.user =[JSON.parse(localStorage.getItem("user"))];
-      console.log("uservantoken:", this.user);
       this.c_email =this.user[0].email;
     }
     else{
@@ -66,7 +65,6 @@ export default {
         name:'',
         email:''
       }];
-            console.log("usernincs:", this.user);
 
     }
   },
@@ -78,7 +76,6 @@ export default {
     setShppingAddress(){
       let valid = this.isValid();
       if(valid){
-        console.log(this.user);
        this.$store.commit(TYPES.mutations.setShippingAddress,this.user);
        
      }

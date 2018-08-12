@@ -30,7 +30,6 @@ export default {
   },
   methods: {
     addToCart() {
-      console.log(this.product.id);
       this.$store.commit(TYPES.mutations.ADD_TO_CART, this.product);
     },
     removeFromCart(id) {

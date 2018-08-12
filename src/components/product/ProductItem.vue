@@ -44,10 +44,10 @@ export default {
     "product-button": productbutton
   },
   methods: {
-    calculatePrice(item){
-      let discount = item.discount + 100;
+     calculatePrice(item){
+      let discount = parseInt(item.discount);
       let max = 100;
-      let totaldisc = max / discount;
+      let totaldisc = (max - discount) /100;
 
       return Math.round(totaldisc * item.price);
     }

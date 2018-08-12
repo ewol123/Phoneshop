@@ -6,7 +6,10 @@ import createPersistedState from 'vuex-persistedstate'
 
 Vue.use(Vuex);
 
-//let url = "https://thawing-wave-66675.herokuapp.com/"
+let url = "https://desolate-brushlands-61330.herokuapp.com"
+
+//let url = "http://localhost:3000" <- use this for local testing
+
 
 let initialState = {
     showloader: false,
@@ -76,6 +79,7 @@ export const TYPES = {
         resetState: "resetState",
         deleteProducts: "deleteProducts",
         setShippingAddress: "setShippingAddress",
+        deleteShippingAddress: "deleteShippingAddress",
         addProduct: "addProduct",
         addProductSuccess: "addProductSuccess",
         addProductFailed: "addProductFailed",
@@ -104,7 +108,7 @@ const actions = {
         formData.append("description", payload.description);
         formData.append("id", id);
 
-        return Axios.put("http://localhost:3000/products/updateProduct", formData, {
+        return Axios.put(`${url}/products/updateProduct`, formData, {
             headers: { "x-access-token": token },
         }).then(res => {
 
@@ -119,7 +123,6 @@ const actions = {
             }
 
         }).catch(err => {
-            console.log(err);
             commit(TYPES.mutations.updateProductFailed);
             return Promise.reject(err);
         });
@@ -127,7 +130,7 @@ const actions = {
     [TYPES.actions.deleteProduct]({ commit }, { id, token, index }) {
         commit(TYPES.mutations.deleteMessage);
 
-        return Axios.delete(`http://localhost:3000/products/deleteProduct/${id}`, {
+        return Axios.delete(`${url}/products/deleteProduct/${id}`, {
             headers: { "x-access-token": token },
         }).then(res => {
             if (res.data.status === true) {
@@ -141,7 +144,6 @@ const actions = {
                 return res;
             }
         }).catch(err => {
-            console.log(err);
             return Promise.reject(err);
         })
     },
@@ -156,7 +158,7 @@ const actions = {
         formData.append("discount", payload.discount);
         formData.append("description", payload.description);
 
-        return Axios.post("http://localhost:3000/products/addProduct", formData, {
+        return Axios.post(`${url}/products/addProduct`, formData, {
             headers: { "x-access-token": token },
         }).then(res => {
             if (res.data.status === true) {
@@ -179,33 +181,26 @@ const actions = {
     [TYPES.actions.getOrders]({ commit }, { id, token }) {
         commit(TYPES.mutations.showLoading);
         commit(TYPES.mutations.deleteMessage);
-        console.log("ezaz id: ", id);
-        return Axios.get(`http://localhost:3000/orders/getOrders/${id}`, {
+        return Axios.get(`${url}/orders/getOrders/${id}`, {
             headers: {
                 "x-access-token": token
             },
         }).then(res => {
             if (res.data.status === true) {
                 commit(TYPES.mutations.setMessage, res.data.message);
-                console.log("message:", res.data.message);
 
                 if (localStorage.getItem("orders")) {
                     localStorage.removeItem("orders");
                 }
                 localStorage.setItem("orders", JSON.stringify(res.data.orders));
-                console.log("orders:", res.data.orders);
                 commit(TYPES.mutations.hideLoading);
                 return res;
             } else {
                 commit(TYPES.mutations.hideLoading);
                 commit(TYPES.mutations.setMessage, res.data.message);
-                console.log("status not true");
-                console.log(res.data.message);
-                console.log(res.data.status);
                 return res;
             }
         }).catch(err => {
-            console.log("catch", err);
             commit(TYPES.mutations.hideLoading);
             commit(TYPES.mutations.setMessage, "Error");
             return Promise.reject(err);
@@ -219,13 +214,14 @@ const actions = {
         formData.append("address", JSON.stringify(address));
         formData.append("user", JSON.stringify(user));
 
-        return Axios.post("http://localhost:3000/orders/setOrder", formData).then(res => {
-            commit(TYPES.mutations.showLoading);
+        return Axios.post(`${url}/orders/setOrder`, formData).then(res => {
 
             if (res.data.status === true) {
                 commit(TYPES.mutations.hideLoading);
                 commit(TYPES.mutations.setMessage, res.data.message);
 
+            } else {
+                commit(TYPES.mutations.hideLoading);
             }
         }).catch(err => {
             commit(TYPES.mutations.hideLoading);
@@ -250,7 +246,7 @@ const actions = {
         formData.append("name", user.name);
         formData.append("email", user.email);
         formData.append("password", pw);
-        return Axios.put("http://localhost:3000/users/changeProfile", formData, {
+        return Axios.put(`${url}/users/changeProfile`, formData, {
             headers: {
                 "x-access-token": token
             },
@@ -286,14 +282,12 @@ const actions = {
         commit(TYPES.mutations.deleteProducts);
 
 
-        return Axios.get(`http://localhost:3000/products/getAllProducts`).then(res => {
+        return Axios.get(`${url}/products/getAllProducts`).then(res => {
             if (res.data.status === true) {
                 commit(TYPES.mutations.hideLoading);
 
 
-                console.log("products service:", res.data.products);
                 commit(TYPES.mutations.setMessage, res.data.message);
-                console.log("message:", res.data.message);
 
                 commit(TYPES.mutations.allProducts, res.data.products);
 
@@ -305,22 +299,16 @@ const actions = {
             } else {
                 commit(TYPES.mutations.hideLoading);
                 commit(TYPES.mutations.setMessage, res.data.message);
-                console.log("status not true");
-                console.log(res.data.message);
-                console.log(res.data.status);
                 return res;
             }
         }).catch(err => {
             commit(TYPES.mutations.hideLoading);
-            console.log("catch", err);
             commit(TYPES.mutations.setMessage, "Error");
             return Promise.reject(err);
 
         })
     },
     [TYPES.actions.productById]({ commit }, { id }) {
-        console.log("Fetch single data here");
-        console.log("id: ", id);
         commit(TYPES.mutations.productById, id);
     },
     [TYPES.actions.register]({ commit }, { model }) {
@@ -332,11 +320,8 @@ const actions = {
         formData.append("email", model.email);
         formData.append("password", model.password);
 
-        return Axios.post(`http://localhost:3000/users/register`, formData).then(res => {
-            console.log(res);
+        return Axios.post(`${url}/users/register`, formData).then(res => {
             commit(TYPES.mutations.hideLoading);
-            console.log(state.showloader);
-            console.log("everydone");
             if (res.data.status === true) {
                 commit(TYPES.mutations.setUser, res.data.user);
 
@@ -347,7 +332,6 @@ const actions = {
 
 
 
-                console.log(res.data.user);
                 return res;
             } else {
                 commit(TYPES.mutations.setMessage, res.data.message);
@@ -363,13 +347,10 @@ const actions = {
 
         commit(TYPES.mutations.showLoading);
         commit(TYPES.mutations.deleteMessage);
-        console.log(state.showloader);
         const formData = new FormData();
         formData.append("email", model.email);
         formData.append("password", model.password);
-        console.log(formData);
-        console.log(model.email, ":", model.password);
-        return Axios.post(`http://localhost:3000/users/login`, formData, ).then(res => {
+        return Axios.post(`${url}/users/login`, formData, ).then(res => {
             commit(TYPES.mutations.hideLoading);
             if (res.data.status == true) {
                 commit(TYPES.mutations.setUser, res.data.user);
@@ -406,7 +387,6 @@ const getters = {
         return state.cart;
     },
     getPrice: state => {
-        console.log("price", state.cart.current_price);
         return state.cart.current_price;
     },
     getUser: state => {
@@ -461,9 +441,11 @@ const mutations = {
     [TYPES.mutations.setShippingAddress](state, payload) {
         state.shipAddress = payload;
     },
+    [TYPES.mutations.deleteShippingAddress](state) {
+        state.shipAddress = [];
+    },
     [TYPES.mutations.setFilter](state, payload) {
         state.filter = payload;
-        console.log(state.filter);
     },
     [TYPES.mutations.deleteProducts](state) {
         state.products = [];
@@ -473,55 +455,43 @@ const mutations = {
     },
 
     [TYPES.mutations.productById](state, id) {
-        console.log("mutation id: ", id);
         //set single data here
         state.product = "";
-        console.log("product before: ", state.product);
         state.product = state.products.find(x => x.id === parseInt(id));
 
-        console.log("product after:", state.product);
     },
     [TYPES.mutations.ADD_TO_CART](state, payload) {
-        console.log("payload", payload);
         //payload['quantity'] = 1 ;
         Vue.set(payload, "quantity", 1);
         //payload['current_price'] = payload.price;
         Vue.set(payload, "current_price",
-            Math.round(100 / (payload.discount + 100) *
-                payload.price)
+            Math.round(((100 - payload.discount) / 100) * payload.price)
         );
 
-        console.log("payload after:", payload);
         state.cart.push(payload);
 
-        console.log("cart", state.cart);
     },
     [TYPES.mutations.REMOVE_FROM_CART]: (state, payload) => {
         const index = state.cart.findIndex(p => p.id === payload);
         state.cart.splice(index, 1);
-        console.log(state.cart, state.cart.length, index);
     },
     [TYPES.mutations.changeQuantity](state, payload) {
-        console.log("payloadd:", payload);
-        console.log(state.cart);
         Vue.set(
             state.cart.find(x => x.id === payload.id),
             "quantity",
             payload.quant
         );
 
+        let quantity = state.cart.find(x => x.id === payload.id).quantity
+        let discount = state.cart.find(x => x.id === payload.id).discount
+        let price = state.cart.find(x => x.id === payload.id).price
 
         Vue.set(
             state.cart.find(x => x.id === payload.id),
             "current_price",
-            Math.round(state.cart.find(x => x.id === payload.id).quantity *
-                100 / (state.cart.find(x => x.id === payload.id).discount + 100) *
-                state.cart.find(x => x.id === payload.id).price)
+            Math.round(((100 - discount) / 100 * price) * quantity)
         );
 
-        console.log(state.cart.find(x => x.id === payload.id).quantity);
-        console.log(state.cart.find(x => x.id === payload.id).current_price);
-        console.log(state.cart.find(x => x.id === payload.id));
     },
     [TYPES.mutations.emptyCart](state) {
         state.cart = [];

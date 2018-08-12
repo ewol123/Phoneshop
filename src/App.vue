@@ -25,6 +25,7 @@ export default {
       return this.$store.getters.cart;
     },
     showLoader(){
+      console.log("loading: ",this.$store.getters.loading);
       return this.$store.getters.loading
     }
   },
@@ -34,7 +35,6 @@ export default {
   },
   mounted(){
      this.$store.dispatch(TYPES.actions.allProducts);
-     console.log(localStorage.getItem("products"));
     if(!window.$cookies.get("token")){
 
     this.$store.commit(TYPES.mutations.resetState);
@@ -42,7 +42,7 @@ export default {
     }
   },
   created(){
-    
+     
      this.$store.subscribe((mutation) => {
         switch (mutation.type) {
           case TYPES.mutations.addProductSuccess:

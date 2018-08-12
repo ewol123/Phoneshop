@@ -89,10 +89,8 @@
   export default {
       created(){
         if(this.page ==="edit"){
-          console.log("id:",this.params)
           let id = parseInt(this.params);
           let filtered = this.Products.filter(x => x.id === id);
-          console.log(filtered);
           this.model.name = filtered[0].name;
           this.model.price =filtered[0].price;
           this.model.manufacturer =filtered[0].manufacturerId;
@@ -122,9 +120,7 @@
       },
       methods:{
         addNewProduct(){
-          console.log("add new product called");
           let token = this.$cookies.get("token");
-          console.log(token);
            let user = JSON.parse(localStorage.getItem("user"));
           let useremail = user.email;
           if(useremail ==='admin@phoneshop.com'){
@@ -147,7 +143,6 @@
           }
         },
         updateProduct(){
-          console.log("update products called");
           let token = this.$cookies.get("token");
           let user = JSON.parse(localStorage.getItem("user"));
           let useremail = user.email;

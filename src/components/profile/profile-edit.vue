@@ -83,7 +83,6 @@ import  { TYPES } from "../../store.js";
 import WaveSpin from 'vue-loading-spinner/src/components/Wave.vue'
 export default {
     mounted(){
-        console.log("profile-message: ", this.Message);
     },
     props: ['user'],
     components: {
@@ -115,19 +114,12 @@ export default {
     },
          changeProfile(){
             let valid =this.validate();     
-            console.log(valid);          
             if(valid){  
                 
                
         let token = this.$cookies.get("token");
            this.$store.dispatch(TYPES.actions.changeUser, {user: this.user, pw:this.password, token:token})
-           .then(res =>{
-               if (res.data.status === true) {
            
-      } else {
-           console.log(`${this.Message}`);
-      }
-           }).catch(res => {alert(`${this.Message}`)});
             }
             else{
                 alert("password dont match");

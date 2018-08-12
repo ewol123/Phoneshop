@@ -11,7 +11,6 @@ export default {
   mounted() {
     this.$store.dispatch("productById", { id: this.$route.params["id"] });
 
-    console.log("details product: ", this.product);
   },
 
   computed: {

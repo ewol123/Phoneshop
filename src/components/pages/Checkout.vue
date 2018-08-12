@@ -48,7 +48,6 @@ export default {
     "checkout-list": checkoutlist
   },
   mounted(){
-    console.log(this.$store.getters.cart);
   }
 };
 </script>

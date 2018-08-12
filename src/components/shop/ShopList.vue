@@ -42,9 +42,7 @@ export default {
        }
    },
     mounted(){
-      console.log("filtered collection: ", this.products);
-      console.log(this.list);
-
+     
       if(this.products.length < 5){
            for (let i = 0; i < this.products.length; i++) {
       this.list.push(this.products[i]);
@@ -59,9 +57,7 @@ export default {
     },
     watch: {
       products: function(){
-        console.log("products changed");
-        console.log("changed products: ",this.products);
-        console.log("list before clear:",this.list);
+      
         //trigger reset when products change
 
        //!!!Reset index too
@@ -97,7 +93,6 @@ export default {
       });
     },
         infiniteHandler($state) {
-          console.log("infiniteHandler called");
       setTimeout(() => {
         const temp = [];
         let step = 3;
@@ -127,9 +122,7 @@ export default {
           temp.push(this.products[i]);
         }
         this.list = this.list.concat(temp);
-        console.log("end of list: ", this.products.length);
         this.index += step;
-        console.log("index", this.index);
         $state.loaded();
       }
       else{
