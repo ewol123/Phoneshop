@@ -12,7 +12,7 @@
       </b-nav-form>
     </b-navbar-nav>
 </b-navbar>
-            {{searchText}}
+         
 <!--/Admin search-->
 
     <!--Available products-->
@@ -29,13 +29,13 @@
             </thead>
             <tbody>
                 
-            <tr v-for="item in list" :key="item.id">
+            <tr v-for="(item,index) in Products" :key="item.id">
               <td>{{item.name}}</td>
               <td>${{item.price}}</td>
               <td>{{item.discount}}%</td>
               <td>{{item.manufacturer}}</td>
               <td><router-link :to="`/admin/edit/${item.id}`"><i class="fa fa-pencil-square-o"></i></router-link></td>
-              <td><a @click="deleteProduct(product._id)"><i class="fa fa-trash"></i></a></td>
+              <td><a v-on:click="deleteProduct(item.id,index)"><i class="fa fa-trash"></i></a></td>
             </tr>
             
             </tbody>
@@ -43,59 +43,26 @@
 
     <!--/Available products-->
 
-    <!--Infinite loader-->      
-           <template v-if="index < Products.length">
-           <infinite-loading ref="infiniteLoading"  class="mx-auto" @infinite="infiniteHandler"></infinite-loading>
-           </template>
-           <template v-else>
-               <small class="text-muted">Everything Loaded!</small>
-               
-               </template> 
-    <!--/Infinite loader-->
+    
 
         </div>
 </template>
 
 <script>
-import InfiniteLoading from "vue-infinite-loading";
-
+  import {TYPES} from '../../../src/store';
   export default {
-      components: {
-          InfiniteLoading
-      },
-
-      watch: {
-          //if search text is changed we reset our infinite loader
-          searchText: function(){
-          
-             if(this.Products.length < 10){
-                 this.list = [];
-           for (let i = 0; i < this.Products.length; i++) {
-      this.list.push(this.Products[i]);
-        }
-      }
-      else {
-        this.index = 10;
-       this.changeFilter();
-      } 
-          } 
-      },
-      created(){
-       //load first 10 products
-    for (let i = 0; i < this.index; i++) {
-      this.list.push(this.Products[i]);
-    }
-      },
       computed: {
           Products(){
               //if search text is empty we just return all products
               if(this.searchText === '') {
                   console.log("search is empty");
-             return JSON.parse(localStorage.getItem("products"));
+                 
+                 
+             return this.$store.getters.allProducts;
             }
             //else we check the text and return item accordingly
             else {
-                let products = JSON.parse(localStorage.getItem("products"));
+                let products = this.$store.getters.allProducts;
                 let filteredProducts = [];
                 let search = this.searchText;
 
@@ -116,71 +83,33 @@ import InfiniteLoading from "vue-infinite-loading";
                    }
                       
                 }
-            
               return filteredProducts;
-
             }
           }
       },
+      methods: {
+            deleteProduct(id,index){
+                console.log("id: ",id);
+                console.log("index: ",index);
+                let token = this.$cookies.get("token");
+                let user = JSON.parse(localStorage.getItem("user"));
+                let useremail = user.email;
+                if(useremail === 'admin@phoneshop.com'){
+               this.$store.dispatch(TYPES.actions.deleteProduct,{id:id,token:token,index:index}).then(res =>{
+                   this.$store.dispatch(TYPES.actions.allProducts);
+               });
+                }
+                else{
+                    alert('You are not the admin');
+                }
+            }
+      },
       data(){
           return {
-              index: 10,
-              list: [],
               searchText: '',
           }
       },
-      methods: {
-           changeFilter() {
-         this.list = [];
-      for (let i = 0; i < this.index; i++) {
-      this.list.push(this.Products[i]);
-        }
-      this.$nextTick(() => {
-        this.$refs.infiniteLoading.$emit('$InfiniteLoading:reset');
-      });
-    },
-          infiniteHandler($state) {
-      setTimeout(() => {
-        const temp = [];
-        let step = 10;
-   
-      /*here we check if array.length - index / steps is smaller than one, 
-        if so that means we cant load "steps" amount of data, because we don't have that much,
-        so we just load the rest of them at once.
-      */
-       if((this.Products.length - this.index) /step < 1) {
-        for( let i = this.index; i<this.Products.length;i++){
-          this.list = this.list.concat(this.Products[i]);
-          $state.loaded();
-        }
-         this.index = this.Products.length;
-          $state.complete();
-        
-        }
-      else{
-       
-        $state.complete();
-  }
-        //update list of products with infiniteHandler
-        
-        if(this.index < this.Products.length){
-        for (let i = this.index; i < this.index + step; i++) {
-          temp.push(this.Products[i]);
-        }
-        this.list = this.list.concat(temp);
-        console.log("admin-product-newlist", this.list);
-        console.log("end of list: ", this.Products.length);
-        this.index += 10;
-        console.log("index", this.index);
-        $state.loaded();
-        }
-        else{
-            $state.complete();
-        }
-       
-  }, 1000);
-    }
-      }
+    
    
   }
 </script>

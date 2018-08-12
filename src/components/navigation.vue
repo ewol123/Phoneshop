@@ -20,16 +20,8 @@ import { mapGetters, mapMutations } from "vuex";
 import { TYPES } from "../store.js";
 
 export default {
-    methods: {
-        ...mapMutations([TYPES.mutations.deleteUser]),
-        logout(){
-                  this.$cookies.remove("token");
-                  localStorage.removeItem("user");
-                  localStorage.removeItem("orders");
-                  this.deleteUser();
-                  this.$store.commit(TYPES.mutations.resetState);
-            }
-    },
+   
+   
     computed: {
         cartItemsCount() {
         return this.$store.getters.cart;
@@ -41,12 +33,6 @@ export default {
           id: "home",
           path: "/",
           class: "fa fa-home"
-        },
-        {
-          name: "Admin",
-          id: "admin",
-          path: "/admin",
-          class: "fa fa-user"
         },
         {
           name:`Cart(${this.cartItemsCount.length})`,
@@ -61,7 +47,25 @@ export default {
        
          ...mapGetters({ isLoggedIn: TYPES.getters.isLoggedIn }),
           itemCollection() {
+           
       if (this.isLoggedIn) {
+         if(JSON.parse(localStorage.getItem("user")).email==='admin@phoneshop.com'){
+        return [
+          ...this.baseNav,
+        {
+          name: "Admin",
+          id: "admin",
+          path: "/admin",
+          class: "fa fa-user"
+        },
+         {
+            name: "Profile",
+            id: "profile",
+            path: "/profile",
+            class:"fa fa-user-circle"
+          },
+        ];
+      }
         return [
           ...this.baseNav,
           {

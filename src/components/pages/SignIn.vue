@@ -143,8 +143,8 @@ export default {
     return {
       model: {
         name: "",
-        email: "",
-        password: "",
+        email: "admin@phoneshop.com",
+        password: "havefun234",
         c_password: "",
      
       }

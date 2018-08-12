@@ -21,8 +21,8 @@
        <template v-if="index < products.length">
         <infinite-loading ref="infiniteLoading"  class="mx-auto" @infinite="infiniteHandler"></infinite-loading>
         </template>
-        <template v-else>
-          <p class="text-muted text-center"><small>Loaded everything!</small></p>
+        <template v-else-if="products.length > 0">
+          <p class="text-muted text-center"><small>No more products!</small></p>
         </template>
     </div>
   </div>
@@ -106,16 +106,6 @@ export default {
         if(this.products.length < 6){
           step = 2;
         }
-
-
-        for (let i = this.index; i < this.index + step; i++) {
-          temp.push(this.products[i]);
-        }
-        this.list = this.list.concat(temp);
-        console.log("end of list: ", this.products.length);
-        this.index += step;
-        console.log("index", this.index);
-
       /*here we check if array.length - index / steps is smaller than one, 
         if so that means we cant load "steps" amount of data, because we don't have that much,
         so we just load the rest of them at once.
@@ -125,11 +115,27 @@ export default {
           this.list = this.list.concat(this.products[i]);
           $state.loaded();
         }
+        this.index = this.products.length;
        $state.complete();
         }
       else{
         $state.loaded();
   }
+
+      if(this.index < this.products.length){
+        for (let i = this.index; i < this.index + step; i++) {
+          temp.push(this.products[i]);
+        }
+        this.list = this.list.concat(temp);
+        console.log("end of list: ", this.products.length);
+        this.index += step;
+        console.log("index", this.index);
+        $state.loaded();
+      }
+      else{
+        $state.complete();
+      }
+      
 
    
   }, 1000);

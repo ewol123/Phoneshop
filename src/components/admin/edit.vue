@@ -1,6 +1,6 @@
 <template>
   <div>
-      <productform page="edit"></productform>
+      <productform page="edit" :params="id"></productform>
   </div>
 </template>
 
@@ -9,6 +9,11 @@
   export default {
       components: {
         'productform':productform        
+      },
+      data(){
+        return {
+          id: this.$route.params.id
+        }
       }
   }
 </script>

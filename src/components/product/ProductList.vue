@@ -4,20 +4,27 @@
     <div class="products">
       <div class="container">
 
+          <paginate-links class="row text-secondary justify-content-center h1 paginate-button" for="products" :limit="2" :show-step-links="true"></paginate-links>
  
-            <div class="row">
+         <span v-if="$refs.paginator" >
+         <p class="text-center"><strong> Viewing {{$refs.paginator.pageItemsCount}} results</strong></p>
+         </span>
 
-        <div  class="col-12 col-lg-3 my-3" v-for="product in list" :key="product.id">
+          <paginate
+            name="products"
+            :list="products"
+            :per="6"
+            ref="paginator"
+            class="row"
+          >
+        <div class="col-12  col-lg-4" v-for="product in paginated('products')" :key="product.id">
           
-         <product-item v-if="product.discount >0" :product="product" :key="product.id"></product-item>
-          
+          <template>
+         <product-item :product="product" :key="product.id"></product-item>
+           </template>
         </div>
-           
-
-
-
-        </div>
-        <infinite-loading  v-if="index < products.length" class="mx-auto" @infinite="infiniteHandler"></infinite-loading>
+          </paginate>
+       
           
       </div>
     </div>
@@ -27,28 +34,16 @@
 <script>
 /* eslint-disable */
 import productitem from "./productitem.vue";
-import InfiniteLoading from "vue-infinite-loading";
 import { TYPES } from "../../../src/store.js";
 export default {
   name: "product-list",
-  created() {
-
-
-    
-    for (let i = 0; i < this.index; i++) {
-      this.list.push(this.products[i]);
-    }
-
-
-    console.log("created", this.list);
-    console.log("products length", this.products.length);
-    
-  },
+  
   computed: {
     products: {
       get: function() {
         let product = JSON.parse(localStorage.getItem("products"));
-        return product;
+        let filtered = product.filter(x => x.discount > 0);
+        return filtered;
       },
       set: function(value) {
       console.log("set called");
@@ -56,57 +51,18 @@ export default {
     },
 
   },
-  mounted() {
-    console.log("mounted", this.products);
-    console.log("rowcount", this.rowcount);
-  },
+  
   data() {
     return {
-      list: [],
-      index: 8
+         
+         paginate: ['products']
     };
   },
   methods: {
-    infiniteHandler($state) {
-      setTimeout(() => {
-        const temp = [];
-        let step = 4;
-      /*here we check if array.length - index / steps is smaller than one, 
-        if so that means we cant load "steps" amount of data, because we don't have that much,
-        so we just load the rest of them at once.
-      */
-        if((this.products.length - this.index) /step < 1) {
-        for( let i = this.index; i<this.products.length;i++){
-          this.list = this.list.concat(this.products[i]);
-          $state.loaded();
-        }
-          $state.complete();
-        }
-      else{
-          $state.loaded();
-  }
-        if(this.index < this.products.length){
-        for (let i = this.index; i < this.index + step; i++) {
-          temp.push(this.products[i]);
-        }
-        this.list = this.list.concat(temp);
-        console.log("newlista", this.list);
-        console.log("end of list: ", this.products.length);
-        this.index += 4;
-        console.log("index", this.index);
-        $state.loaded();
-      }
-      else {
-        $state.complete();
-      }
-
-      
-  }, 1000);
-    }
+   
   },
   components: {
     "product-item": productitem,
-    InfiniteLoading
   }
 };
 </script>
@@ -115,4 +71,30 @@ export default {
 .products {
   padding: 30px 0;
 }
+.paginate-button {
+    letter-spacing: 1rem;
+}
+
+  .paginate-button a {
+    cursor: pointer;
+     transition: 0.3s;
+  }
+
+  .paginate-button a:hover {
+    font-size: 55px;
+  }
+  li.active a {
+    font-weight: bold;
+  }
+  li.next:before {
+    content: ' | ';
+    margin-right: 13px;
+    color: #ddd;
+  }
+  li.disabled a {
+    color: #ccc;
+    cursor: no-drop;
+  }
+
+
 </style>

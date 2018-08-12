@@ -54,7 +54,10 @@ export const TYPES = {
         register: "register",
         changeUser: "changeUser",
         setOrder: "setOrder",
-        getOrders: "getOrders"
+        getOrders: "getOrders",
+        addProduct: "addProduct",
+        deleteProduct: "deleteProduct",
+        updateProduct: "updateProduct"
 
     },
     mutations: {
@@ -72,7 +75,16 @@ export const TYPES = {
         hideLoading: "hideLoading",
         resetState: "resetState",
         deleteProducts: "deleteProducts",
-        setShippingAddress: "setShippingAddress"
+        setShippingAddress: "setShippingAddress",
+        addProduct: "addProduct",
+        addProductSuccess: "addProductSuccess",
+        addProductFailed: "addProductFailed",
+        deleteProduct: "deleteProduct",
+        deleteProductFailed: "deleteProductFailed",
+        deleteProductSuccess: "deleteProductSuccess",
+        updateProduct: "updateProduct",
+        updateProductSuccess: "updateProductSuccess",
+        updateProductFailed: "updateProductFailed"
     },
     getters: {
         isLoggedIn: "isLoggedIn"
@@ -80,6 +92,90 @@ export const TYPES = {
 };
 
 const actions = {
+    [TYPES.actions.updateProduct]({ commit }, { payload, token, id }) {
+        commit(TYPES.mutations.deleteMessage);
+
+        const formData = new FormData();
+        formData.append("name", payload.name);
+        formData.append("price", payload.price);
+        formData.append("manufacturer", payload.manufacturer);
+        formData.append("image", payload.image);
+        formData.append("discount", payload.discount);
+        formData.append("description", payload.description);
+        formData.append("id", id);
+
+        return Axios.put("http://localhost:3000/products/updateProduct", formData, {
+            headers: { "x-access-token": token },
+        }).then(res => {
+
+            if (res.data.status === true) {
+                commit(TYPES.mutations.setMessage, res.data.message);
+                commit(TYPES.mutations.updateProductSuccess);
+                return res;
+            } else {
+                commit(TYPES.mutations.setMessage, res.data.message);
+                commit(TYPES.mutations.updateProductFailed);
+                return res;
+            }
+
+        }).catch(err => {
+            console.log(err);
+            commit(TYPES.mutations.updateProductFailed);
+            return Promise.reject(err);
+        });
+    },
+    [TYPES.actions.deleteProduct]({ commit }, { id, token, index }) {
+        commit(TYPES.mutations.deleteMessage);
+
+        return Axios.delete(`http://localhost:3000/products/deleteProduct/${id}`, {
+            headers: { "x-access-token": token },
+        }).then(res => {
+            if (res.data.status === true) {
+                commit(TYPES.mutations.setMessage, res.data.message);
+                commit(TYPES.mutations.deleteProduct, index);
+                commit(TYPES.mutations.deleteProductSuccess);
+                return res;
+            } else {
+                commit(TYPES.mutations.setMessage, res.data.message);
+                commit(TYPES.mutations.deleteProductFailed);
+                return res;
+            }
+        }).catch(err => {
+            console.log(err);
+            return Promise.reject(err);
+        })
+    },
+    [TYPES.actions.addProduct]({ commit }, { payload, token }) {
+        commit(TYPES.mutations.showLoading);
+        commit(TYPES.mutations.deleteMessage);
+        const formData = new FormData();
+        formData.append("name", payload.name);
+        formData.append("price", payload.price);
+        formData.append("manufacturer", payload.manufacturer);
+        formData.append("image", payload.image);
+        formData.append("discount", payload.discount);
+        formData.append("description", payload.description);
+
+        return Axios.post("http://localhost:3000/products/addProduct", formData, {
+            headers: { "x-access-token": token },
+        }).then(res => {
+            if (res.data.status === true) {
+                commit(TYPES.mutations.hideLoading);
+                commit(TYPES.mutations.setMessage, res.data.message);
+                commit(TYPES.mutations.addProductSuccess);
+
+            } else if (res.data.status === false) {
+                commit(TYPES.mutations.setMessage, res.data.message);
+                commit(TYPES.mutations.addProductFailed);
+
+            }
+            return res;
+        }).catch(err => {
+            commit(TYPES.mutations.addProductFailed);
+            return Promise.reject(err);
+        });
+
+    },
     [TYPES.actions.getOrders]({ commit }, { id, token }) {
         commit(TYPES.mutations.showLoading);
         commit(TYPES.mutations.deleteMessage);
@@ -93,6 +189,9 @@ const actions = {
                 commit(TYPES.mutations.setMessage, res.data.message);
                 console.log("message:", res.data.message);
 
+                if (localStorage.getItem("orders")) {
+                    localStorage.removeItem("orders");
+                }
                 localStorage.setItem("orders", JSON.stringify(res.data.orders));
                 console.log("orders:", res.data.orders);
                 commit(TYPES.mutations.hideLoading);
@@ -158,6 +257,12 @@ const actions = {
         }).then(res => {
             if (res.data.status == true) {
                 commit(TYPES.mutations.hideLoading);
+
+                if (localStorage.getItem("user")) {
+                    localStorage.removeItem("user");
+                }
+
+
                 localStorage.setItem("user", JSON.stringify(res.data.user));
                 commit(TYPES.mutations.setMessage, res.data.message);
                 commit(TYPES.mutations.setUser, res.data.user);
@@ -191,6 +296,10 @@ const actions = {
                 console.log("message:", res.data.message);
 
                 commit(TYPES.mutations.allProducts, res.data.products);
+
+                if (localStorage.getItem("products")) {
+                    localStorage.removeItem("products");
+                }
                 localStorage.setItem("products", JSON.stringify(res.data.products));
                 return res;
             } else {
@@ -230,6 +339,10 @@ const actions = {
             console.log("everydone");
             if (res.data.status === true) {
                 commit(TYPES.mutations.setUser, res.data.user);
+
+                if (localStorage.getItem("user")) {
+                    localStorage.removeItem("user");
+                }
                 localStorage.setItem("user", JSON.stringify(res.data.user));
 
 
@@ -260,6 +373,11 @@ const actions = {
             commit(TYPES.mutations.hideLoading);
             if (res.data.status == true) {
                 commit(TYPES.mutations.setUser, res.data.user);
+
+
+                if (localStorage.getItem("user")) {
+                    localStorage.removeItem("user");
+                }
                 localStorage.setItem("user", JSON.stringify(res.data.user));
                 return res;
 
@@ -316,6 +434,30 @@ const getters = {
 };
 
 const mutations = {
+    [TYPES.mutations.updateProduct](state, payload) {},
+    [TYPES.mutations.updateProductSuccess](state) {
+        console.log("success");
+    },
+    [TYPES.mutations.updateProductFailed](state) {
+        console.log("failed");
+
+    },
+    [TYPES.mutations.deleteProduct](state, payload) {
+        state.products.splice(payload, 1)
+
+    },
+    [TYPES.mutations.deleteProductSuccess](state) {
+        console.log("success");
+    },
+    [TYPES.mutations.deleteProductFailed](state) {
+        console.log("failed");
+    },
+    [TYPES.mutations.addProductSuccess](state) {
+        console.log("success");
+    },
+    [TYPES.mutations.addProductFailed](state) {
+        console.log("failed");
+    },
     [TYPES.mutations.setShippingAddress](state, payload) {
         state.shipAddress = payload;
     },

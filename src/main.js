@@ -6,7 +6,7 @@ import router from './router'
 import VueCookies from 'vue-cookies'
 import BootstrapVue from 'bootstrap-vue'
 import store from './store'
-
+import VuePaginate from 'vue-paginate'
 // css
 import './styles.css'
 import 'bootstrap/dist/css/bootstrap.css'
@@ -14,6 +14,7 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 Vue.use(VueCookies)
 Vue.use(BootstrapVue);
+Vue.use(VuePaginate)
 
 Vue.config.productionTip = false
 

@@ -1,26 +1,26 @@
 <template>
     <div>
       <section class="bg-light">
-    <b-container class="bg-light navcontainer">
-    <b-row>    
-     <b-col cols="12">   
+    <div class="bg-light container navcontainer">
+    <div class="row">    
+     <div class="col-12" >   
 
          <!--search bar-->
     <searchnav></searchnav>
          <!--/search bar-->
     
-    </b-col>
-    </b-row>
+    </div>
+    </div>
          <!--categories-->
-    <b-row>
+    <div class="row">
     <b-col v-on:click="goToRoute({path: '/shop/Samsung/n'})" class="categ text-center" cols="4">Samsung</b-col>
      <b-col v-on:click="goToRoute({path: '/shop/Apple/n'})" class="categ text-center" cols="4">Apple</b-col>   
      <b-col v-on:click="goToRoute({path: '/shop/Sony/n'})" class="categ text-center" cols="4">Sony</b-col>          
-    </b-row>
+    </div>
          <!--/categories-->
 
          <!--carousel-->
-       <b-row>
+       <div class="row">
  <b-carousel id="carousel1"
                 style="text-shadow: 1px 1px 2px #333; width:130% ;"
                 controls
@@ -45,22 +45,28 @@
       ></b-carousel-slide>
 
     </b-carousel>
-       </b-row>
+       </div>
          <!--/carousel-->
 
          <!--featured-text-->
-       <b-row>
+       <div class="row">
             <h1 class="mx-auto mt-5 featured-text"><i class="fa fa-braille"></i> Featured</h1>
-       </b-row>
+       </div>
          <!--/featured-text-->
 
          <!--product list-->
-            <product-list ></product-list>
+         <div class="row">
+           <div class="col-10 mx-auto">
+            <product-list></product-list>
+
+
+          </div>
+         </div>
          <!--/product list-->
         
       
          
-    </b-container>
+    </div>
       <my-footer></my-footer>
       </section>
     </div>

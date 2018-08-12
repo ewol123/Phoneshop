@@ -57,7 +57,7 @@ export default {
     computed: {
      
       Products(){
-         let products = JSON.parse(localStorage.getItem("products"));
+         let products = this.$store.getters.allProducts;
          return products;
       },
      filteredCollection(){

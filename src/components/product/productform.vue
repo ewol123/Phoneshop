@@ -1,5 +1,5 @@
 <template>
-  <form >
+  <form  @submit.prevent="page === 'new' ? addNewProduct() : updateProduct()">
       <div class="container-fluid">
       <div class="row mx-auto">
     <div class="col-lg-5 col-md-5 col-12 ">
@@ -9,7 +9,10 @@
           type="text"
           placeholder="Name"
           class="form-control"
+          required
+          v-model="model.name"
           />
+          
       </div>
       <div class="form-group">
         <label>Price</label>
@@ -17,6 +20,8 @@
           type="number"
           class="form-control"
           placeholder="Price"
+          required
+          v-model="model.price"
          >
       </div>
       <div class="form-group">
@@ -25,9 +30,24 @@
         <select
           type="text"
           class="form-control"
+          v-model="model.manufacturer"
+          required
           >
-       
+          <option value="1">Samsung</option>
+          <option value="2">Apple</option>
+          <option value="3">Sony</option>
         </select>
+      </div>
+
+      <div class="form-group">
+        <label>Discount</label>
+        <input 
+        type="number"
+        placeholder="Discount"
+        class="form-control"
+        required
+        v-model="model.discount"
+        />
       </div>
     </div>
 
@@ -36,7 +56,9 @@
         <label>Image</label>
         <input
           type="text"
+          v-model="model.image"
           placeholder="Image"
+          required
           class="form-control" />
       </div>
       <div class="form-group">
@@ -44,6 +66,8 @@
         <textarea
           class="form-control"
           placeholder="Description"
+          v-model="model.description"
+          required
           rows="5"
            ></textarea>
       </div>
@@ -61,8 +85,82 @@
 </template>
 
 <script>
- 
+ import {TYPES} from '../../../src/store';
   export default {
-      props:['page']
+      created(){
+        if(this.page ==="edit"){
+          console.log("id:",this.params)
+          let id = parseInt(this.params);
+          let filtered = this.Products.filter(x => x.id === id);
+          console.log(filtered);
+          this.model.name = filtered[0].name;
+          this.model.price =filtered[0].price;
+          this.model.manufacturer =filtered[0].manufacturerId;
+          this.model.image =filtered[0].image;
+          this.model.discount =filtered[0].discount;
+          this.model.description =filtered[0].description;
+        }
+      },
+      props:['page','params'],
+      data(){
+        return{
+          model:{
+            name:'',
+            price:'',
+            manufacturer:'',
+            image:'',
+            discount:'',
+            description:''
+          }
+        }
+      },
+      computed :{
+        
+        Products(){
+          return JSON.parse(localStorage.getItem("products"));
+        }
+      },
+      methods:{
+        addNewProduct(){
+          console.log("add new product called");
+          let token = this.$cookies.get("token");
+          console.log(token);
+           let user = JSON.parse(localStorage.getItem("user"));
+          let useremail = user.email;
+          if(useremail ==='admin@phoneshop.com'){
+          this.$store.dispatch(TYPES.actions.addProduct, {payload:this.model, token:token}).then(res =>{
+
+             this.$store.dispatch(TYPES.actions.allProducts).then(res =>{
+               this.model.name = '';
+               this.model.price = '';
+               this.model.manufacturer = '';
+               this.model.image = '';
+               this.model.discount = '';
+               this.model.description = '';
+               
+               });
+          });
+
+          }
+          else{
+            alert("You are not the admin!")
+          }
+        },
+        updateProduct(){
+          console.log("update products called");
+          let token = this.$cookies.get("token");
+          let user = JSON.parse(localStorage.getItem("user"));
+          let useremail = user.email;
+          if(useremail === 'admin@phoneshop.com'){
+           this.$store.dispatch(TYPES.actions.updateProduct, {payload:this.model,token:token,id:this.params}).then(res =>{
+             this.$store.dispatch(TYPES.actions.allProducts);
+           });
+          }
+          else{
+            alert("You are not the admin!");
+          } 
+       
+        }
+      }
   }
 </script>

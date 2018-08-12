@@ -63,8 +63,10 @@ export default {
                   localStorage.removeItem("user");
                   localStorage.removeItem("orders");                  
                   this.deleteUser();
-                  this.$router.push({name:"Home"});
                   this.$store.commit(TYPES.mutations.resetState);
+                  this.$store.dispatch(TYPES.mutations.allProducts);
+                  this.$router.push({name:"Home"});
+                  
             }
         },
     components: {

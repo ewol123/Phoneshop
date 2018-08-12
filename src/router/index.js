@@ -35,6 +35,18 @@ function isEmpty(to, from, next) {
     }
 }
 
+function isAdmin(to, from, next) {
+    if (window.$cookies.get("token")) {
+        if (JSON.parse(localStorage.getItem("user")).email === 'admin@phoneshop.com') {
+            next()
+        } else {
+            next({ name: "Home" });
+        }
+    } else {
+        next({ name: "Home" });
+    }
+}
+
 export default new Router({
     routes: [{
             path: '/',
@@ -54,7 +66,8 @@ export default new Router({
         {
             path: '/cart',
             name: 'Cart',
-            component: Cart
+            component: Cart,
+
         },
         {
             path: '/checkout',
@@ -77,6 +90,7 @@ export default new Router({
             path: '/admin',
             name: 'Admin',
             component: Admin,
+            beforeEnter: isAdmin,
             children: [{
                     path: 'new',
                     name: 'New',

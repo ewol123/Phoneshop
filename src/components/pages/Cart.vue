@@ -3,7 +3,7 @@
 <div class="container">
   <searchnav></searchnav>
 
-  <div v-if="cart.length > 0">
+  <div v-if="Cart.length > 0">
     <div class="title">
       <h1><i class="fa fa-superpowers"></i> Your Cart</h1>
     </div>
