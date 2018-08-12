@@ -1,6 +1,7 @@
 # phoneshop
 
 > Simple webshop with vue. There will be a LOT of changes/refactors.
+> Project is finished for now as of 2018/08/12...I could add a lot of functionality to it still, like product quantity check/update as admin, remove quantity after every order, etc, but maybe another time :) 
 
 ## Build Setup
 
