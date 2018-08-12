@@ -2,7 +2,6 @@ const mysql = require('mysql');
 const bodyParser = require("body-parser");
 const methods = require('../public/javascripts/methods');
 
-
 //MYSQL
 var con = mysql.createConnection({
     host: "localhost",
@@ -24,7 +23,6 @@ const orderController = {
         let year = dateObj.getUTCFullYear();
 
         let newdate = year + "-" + month + "-" + day;
-
 
         cart.forEach(element => {
             let sql = `INSERT INTO orders (userId,orderDate,price,itemId,city,address,state,zip,name,email)VALUES(
@@ -74,7 +72,5 @@ const orderController = {
     }
 
 }
-
-
 
 module.exports = orderController;

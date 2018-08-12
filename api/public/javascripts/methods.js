@@ -12,16 +12,12 @@ module.exports = {
         return !str || 0 === str.length;
     },
 
-
     CheckUser: function(req, res, next) { // check header or url parameters or post parameters for token
         console.log(req.path);
         if (req.path == '/users/register') return next();
         if (req.path == '/users/login') return next();
         if (req.path == '/products/getAllProducts') return next();
         if (req.path == '/orders/setOrder') return next();
-
-
-
 
         let token = req.headers["x-access-token"];
 

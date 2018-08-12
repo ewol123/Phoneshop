@@ -30,18 +30,28 @@
                
                 class="mt-4">
 
-         <b-carousel-slide img-src="https://picsum.photos/1024/300/?image=54">
-        <h1 class="">Hello world!</h1>
+        <router-link to="/signin">
+         <b-carousel-slide 
+          img-src="https://picsum.photos/1024/300/?image=668">
+          <div class="row">
+          <h1 class="mb-5 mx-auto">REGISTER NOW!</h1>
+           <h4 class="mx-auto"><strong>Register on our site now, so you can save your cart, and many many more!</strong></h4>
+          </div>
         </b-carousel-slide>
+        </router-link>
 
-          <b-carousel-slide caption="First slide"
-                        text="Nulla vitae elit libero, a pharetra augue mollis interdum."
-                        img-src="https://picsum.photos/1024/300/?image=52"
-      ></b-carousel-slide>
+        <router-link to="shop/allcateg/n">
+          <b-carousel-slide img-src="https://picsum.photos/1024/300/?image=816" >
+              <div class="row">
+          <h1 class="mb-5 mx-auto">SEARCH IN OUR SHOP!</h1>
+           <h4 class="mx-auto"><strong>Check all of our products and find an awesome phone for yourself! </strong></h4>
+          </div>          
+     </b-carousel-slide>
+        </router-link>
 
-         <b-carousel-slide caption="First slide"
-                        text="Nulla vitae elit libero, a pharetra augue mollis interdum."
-                        img-src="https://picsum.photos/1024/300/?image=52"
+         <b-carousel-slide caption="and grab some coffee..."
+                        text="Everyone likes cofee!!."
+                        img-src="https://picsum.photos/1024/300/?image=431"
       ></b-carousel-slide>
 
     </b-carousel>
@@ -90,5 +100,10 @@ export default {
   }
 };
 </script>
+
+<style>
+
+</style>
+
 
 
