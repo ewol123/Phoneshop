@@ -2,7 +2,7 @@
     <footer class="pt-5 text-dark footer">
        
         <div class="container-fluid">
-        <h1 class="line">ELÉRHETŐSÉGEK</h1>
+        <h1 class="line">CONTACT US</h1>
         <div class="text-center">
             <a class="px-2" href="https://facebook.com">
             <img class="svg" src="../assets/images/facebook.svg" alt="facebook" height="40">
