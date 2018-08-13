@@ -16,7 +16,7 @@
 <!--/Admin search-->
 
     <!--Available products-->
-          <table class="table table-striped">
+          <table class="table table-striped tbl ">
             <thead>
             <tr>
               <th>Name</th>

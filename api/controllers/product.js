@@ -3,7 +3,7 @@ const bodyParser = require("body-parser");
 const methods = require('../public/javascripts/methods');
 
 
-
+//MYSQL
 var con = mysql.createConnection({
     host: "localhost",
     user: "root",

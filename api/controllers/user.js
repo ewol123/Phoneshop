@@ -5,7 +5,6 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const methods = require('../public/javascripts/methods');
 
-
 //MYSQL
 var con = mysql.createConnection({
     host: "localhost",

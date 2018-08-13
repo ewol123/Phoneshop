@@ -5,8 +5,7 @@ import Axios from "axios";
 import createPersistedState from 'vuex-persistedstate'
 
 Vue.use(Vuex);
-
-let url = "https://desolate-brushlands-61330.herokuapp.com"
+let url = "https://floating-escarpment-93716.herokuapp.com"
 
 //let url = "http://localhost:3000" <- use this for local testing
 
